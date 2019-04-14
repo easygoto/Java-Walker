@@ -5,7 +5,7 @@ import org.junit.Test;
 public class IteratorTest {
 
     @Test
-    public void testArrayList() {
+    public void arrayList() {
         Connection conn = new ArrayList();
         for (int i = 0; i < 15; i++) {
             conn.add(new Cat(i));
@@ -20,7 +20,7 @@ public class IteratorTest {
     }
 
     @Test
-    public void testLinkedList() {
+    public void linkedList() {
         Connection conn = new LinkedList();
         for (int i = 0; i < 15; i++) {
             conn.add(new Cat(i));
