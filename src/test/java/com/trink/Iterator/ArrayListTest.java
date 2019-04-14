@@ -14,8 +14,8 @@ public class ArrayListTest {
 
         Iterator it = conn.iterator();
         while (it.hasNext()) {
-            Cat object = (Cat) it.next();
-            System.out.println(object);
+            Cat cat = (Cat) it.next();
+            System.out.println(cat);
         }
     }
 }

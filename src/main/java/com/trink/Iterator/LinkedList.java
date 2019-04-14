@@ -4,7 +4,7 @@ public class LinkedList implements Connection {
 
     private Node head = null;
     private Node tail = null;
-    private int  size = 0;
+    private int  index = 0;
 
     private class Node {
         private Object data;
@@ -44,14 +44,36 @@ public class LinkedList implements Connection {
         }
         tail.setNext(node);
         tail = node;
-        size++;
+        index++;
     }
 
     public int size() {
-        return size;
+        return index;
     }
 
     public Iterator iterator() {
-        return null;
+        return new LinkedListIterator();
+    }
+
+    private class LinkedListIterator implements Iterator {
+
+        private int currentIndex = 0;
+
+        @Override
+        public Object next() {
+            int tempIndex = currentIndex;
+            Node tempNode = head;
+            while (tempIndex > 0) {
+                tempNode = tempNode.next;
+                tempIndex--;
+            }
+            currentIndex++;
+            return tempNode.data;
+        }
+
+        @Override
+        public boolean hasNext() {
+            return currentIndex < index;
+        }
     }
 }
