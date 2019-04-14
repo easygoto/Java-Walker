@@ -3,7 +3,7 @@ package com.trink.Iterator;
 public class ArrayList implements Connection {
 
     private Object[] objectList = new Object[10];
-    private int      index       = 0;
+    private int      index      = 0;
 
     public void add(Object object) {
         if (index == objectList.length) {
@@ -20,6 +20,19 @@ public class ArrayList implements Connection {
     }
 
     public Iterator iterator() {
-        return null;
+        return new ArrayListIterator();
+    }
+
+    private class ArrayListIterator implements Iterator {
+
+        private int currentIndex = 0;
+
+        public Object next() {
+            return objectList[currentIndex++];
+        }
+
+        public boolean hasNext() {
+            return currentIndex < index;
+        }
     }
 }

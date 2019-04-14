@@ -5,16 +5,16 @@ import org.junit.Test;
 public class ArrayListTest {
 
     @Test
-    public void testSize() {
+    public void testArrayList() {
         Connection conn = new ArrayList();
         for (int i = 0; i < 15; i++) {
-            conn.add(i);
+            conn.add(new Cat(i));
         }
         System.out.println(conn.size());
 
         Iterator it = conn.iterator();
         while (it.hasNext()) {
-            Object object = it.next();
+            Cat object = (Cat) it.next();
             System.out.println(object);
         }
     }
