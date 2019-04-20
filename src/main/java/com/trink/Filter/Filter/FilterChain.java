@@ -3,7 +3,7 @@ package com.trink.Filter.Filter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FilterChain {
+public class FilterChain implements Filter {
 
     private List<Filter> filters = new ArrayList<>();
 
@@ -20,8 +20,8 @@ public class FilterChain {
         return this;
     }
 
-    public FilterChain addFilterChain(FilterChain filterChain) {
-        this.filters.addAll(filterChain.getFilters());
+    public FilterChain addFilter(List<Filter> filters) {
+        this.filters.addAll(filters);
         return this;
     }
 

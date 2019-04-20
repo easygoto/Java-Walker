@@ -30,8 +30,8 @@ public class FilterTest {
 
         textImageChain = new FilterChain();
         textImageChain
-                .addFilterChain(textChain)
-                .addFilterChain(imageChain);
+                .addFilter(textChain)
+                .addFilter(imageChain);
     }
 
     @Test
