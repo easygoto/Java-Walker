@@ -1,6 +1,5 @@
 package com.trink.Filter.Filter;
 
-import com.trink.Filter.Filter.*;
 import org.junit.Before;
 import org.junit.Test;
 
