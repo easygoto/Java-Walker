@@ -5,7 +5,6 @@ import org.junit.Test;
 
 public class FilterTest {
 
-    private String       msg;
     private MsgProcessor mp;
 
     private FilterChain textChain;
@@ -14,7 +13,7 @@ public class FilterTest {
 
     @Before
     public void data() {
-        msg = "大家好 :) <script></script> 敏感 傻吊 你他妈";
+        String msg = "大家好 :) <script></script> 敏感 傻吊 你他妈";
         mp = new MsgProcessor();
         mp.setMsg(msg);
 
