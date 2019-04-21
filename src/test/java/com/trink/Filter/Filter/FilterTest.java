@@ -21,7 +21,7 @@ public class FilterTest {
         textChain = new FilterChain();
         textChain
                 .addFilter(new HTMLFilter())
-                .addFilter(new SesitiveFilter());
+                .addFilter(new SensitiveFilter());
 
         imageChain = new FilterChain();
         imageChain

@@ -1,6 +1,6 @@
 package com.trink.Filter.Filter;
 
-public class SesitiveFilter extends BaseFilter {
+public class SensitiveFilter extends BaseFilter {
 
     @Override
     void rule() {
