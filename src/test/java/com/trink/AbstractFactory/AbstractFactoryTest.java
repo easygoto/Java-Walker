@@ -1,4 +1,4 @@
-package com.trink.Factory.AbstractFactory;
+package com.trink.AbstractFactory;
 
 import org.junit.Test;
 

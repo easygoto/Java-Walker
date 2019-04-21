@@ -1,4 +1,4 @@
-package com.trink.Factory.AbstractFactory.model.weapon;
+package com.trink.AbstractFactory.model.weapon;
 
 public class MagicStick extends Weapon {
 

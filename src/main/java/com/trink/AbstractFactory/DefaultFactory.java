@@ -1,8 +1,8 @@
-package com.trink.Factory.AbstractFactory;
+package com.trink.AbstractFactory;
 
-import com.trink.Factory.AbstractFactory.model.weapon.AK47;
-import com.trink.Factory.AbstractFactory.model.food.Apple;
-import com.trink.Factory.AbstractFactory.model.vehicle.Car;
+import com.trink.AbstractFactory.model.weapon.AK47;
+import com.trink.AbstractFactory.model.food.Apple;
+import com.trink.AbstractFactory.model.vehicle.Car;
 
 public class DefaultFactory {
 

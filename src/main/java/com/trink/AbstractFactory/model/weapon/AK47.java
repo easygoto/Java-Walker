@@ -1,4 +1,4 @@
-package com.trink.Factory.AbstractFactory.model.weapon;
+package com.trink.AbstractFactory.model.weapon;
 
 public class AK47 extends Weapon {
 

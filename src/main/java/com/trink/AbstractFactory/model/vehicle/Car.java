@@ -1,4 +1,4 @@
-package com.trink.Factory.AbstractFactory.model.vehicle;
+package com.trink.AbstractFactory.model.vehicle;
 
 public class Car extends Vehicle {
 

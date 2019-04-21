@@ -1,8 +1,8 @@
-package com.trink.Factory.AbstractFactory;
+package com.trink.AbstractFactory;
 
-import com.trink.Factory.AbstractFactory.model.vehicle.Broom;
-import com.trink.Factory.AbstractFactory.model.weapon.MagicStick;
-import com.trink.Factory.AbstractFactory.model.food.MushRoom;
+import com.trink.AbstractFactory.model.vehicle.Broom;
+import com.trink.AbstractFactory.model.weapon.MagicStick;
+import com.trink.AbstractFactory.model.food.MushRoom;
 
 public class MagicFactory {
 

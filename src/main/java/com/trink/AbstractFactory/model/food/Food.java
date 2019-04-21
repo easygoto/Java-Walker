@@ -1,4 +1,4 @@
-package com.trink.Factory.AbstractFactory.model.food;
+package com.trink.AbstractFactory.model.food;
 
 public abstract class Food {
 
