@@ -1,4 +1,4 @@
-package com.trink.Proxy;
+package com.trink.Proxy.Simple;
 
 public class MovableLogProxy implements Movable {
 

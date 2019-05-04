@@ -1,23 +1,23 @@
-package com.trink.Proxy;
+package com.trink.Proxy.Simple;
 
 import java.util.Random;
 
-public class Car implements Movable {
+public class Tank implements Movable {
 
     @Override
     public void move() {
         try {
-            Thread.sleep(new Random().nextInt(1500));
+            Thread.sleep(new Random().nextInt(3000));
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        System.out.println("Car moving ...");
+        System.out.println("Tank moving ...");
     }
 
     @Override
     public void stop() {
         try {
-            Thread.sleep(new Random().nextInt(800));
+            Thread.sleep(new Random().nextInt(3000));
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
