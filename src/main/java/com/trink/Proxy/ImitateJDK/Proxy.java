@@ -77,6 +77,7 @@ public class Proxy {
         Iterable                     utils       = fileManager.getJavaFileObjects(path);
         JavaCompiler.CompilationTask task        = compiler.getTask(null, fileManager, null, null, null, utils);
         task.call();
+        fileManager.flush();
         fileManager.close();
 
         // 加载到内存
@@ -84,11 +85,11 @@ public class Proxy {
                 new URL("file:/" + System.getProperty("user.dir") + "/src/")
         };
         URLClassLoader classLoader = new URLClassLoader(urls);
-        Class          clazz       = classLoader.loadClass("com.trink.Proxy.ImitateJDK.Cache.TempProxy");
-        System.out.println(clazz);
+        Class          clazz       = classLoader.loadClass("TempProxy");
+//        Class          clazz       = Class.forName("com.trink.Proxy.ImitateJDK.Cache.TempProxy");
+//        System.out.println(clazz);
 
         Constructor constructor = clazz.getConstructor(InvocationHandler.class);
-        Object      object      = constructor.newInstance(handler);
-        return object;
+        return constructor.newInstance(handler);
     }
 }
