@@ -1,8 +1,5 @@
 package com.trink.Proxy.ImitateJDK;
 
-import com.trink.Proxy.Simple.Movable;
-import com.trink.Proxy.Simple.Tank;
-
 import javax.tools.JavaCompiler;
 import javax.tools.StandardJavaFileManager;
 import javax.tools.ToolProvider;
@@ -65,7 +62,7 @@ public class Proxy {
         methodBuilderText.delete(methodBuilderText.length() - 1, methodBuilderText.length());
         String methodText = methodBuilderText.toString();
 
-        String src = "package com.trink.Proxy;" + LINE_BREAK + LINE_BREAK +
+        String src = "package com.trink.Proxy.ImitateJDK.Cache;" + LINE_BREAK + LINE_BREAK +
                 "public class TempProxy implements " + interfaceName + " {" + LINE_BREAK + LINE_BREAK +
                 "    private " + interfaceName + " inter;" + LINE_BREAK + LINE_BREAK +
                 "    public TempProxy(" + interfaceName + " inter) {" + LINE_BREAK +
@@ -73,7 +70,7 @@ public class Proxy {
                 "        this.inter = inter;" + LINE_BREAK +
                 "    }" + LINE_BREAK + LINE_BREAK + methodText +
                 "}" + LINE_BREAK;
-        String         path   = System.getProperty("user.dir") + "/src/main/java/com/trink/Proxy/TempProxy.java";
+        String         path   = System.getProperty("user.dir") + "/src/main/java/com/trink/Proxy/ImitateJDK/Cache/TempProxy.java";
         BufferedWriter writer = new BufferedWriter(new FileWriter(new File(path)));
         writer.write(src);
         writer.flush();
@@ -92,7 +89,7 @@ public class Proxy {
                 new URL("file:/" + System.getProperty("user.dir") + "/src/")
         };
         URLClassLoader classLoader = new URLClassLoader(urls);
-        Class          clazz       = classLoader.loadClass("com.trink.Proxy.TempProxy");
+        Class          clazz       = classLoader.loadClass("com.trink.Proxy.ImitateJDK.Cache.TempProxy");
         System.out.println(clazz);
 
         Constructor constructor = clazz.getConstructor(Movable.class);
