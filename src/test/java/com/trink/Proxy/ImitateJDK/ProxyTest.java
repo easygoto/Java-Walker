@@ -6,8 +6,10 @@ public class ProxyTest {
 
     @Test
     public void test() throws Exception {
-        Proxy.newProxyInstance(Movable.class);
+//        Movable movable = (Movable)Proxy.newProxyInstance(Movable.class, new TimeHandler());
+//        movable.move();
+//        movable.stop();
 //        Proxy.newProxyInstance(Comparable.class);
-//        Proxy.newProxyInstance(com.trink.Filter.Filter.Filter.class);
+//        Proxy.newProxyInstance(com.trink.Filter.Filter.Filter.class, new TimeHandler());
     }
 }
