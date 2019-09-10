@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<bookstore>
+	<book id="1">
+		<title>Java面向对象</title>
+		<price>99.99</price>
+	</book>
+	<book id="2">
+		<title>HTML/CSS前端技术</title>
+		<price>78.88</price>
+	</book>
+</bookstore>
