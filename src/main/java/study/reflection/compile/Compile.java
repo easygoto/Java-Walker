@@ -1,4 +1,4 @@
-package tests.reflection;
+package study.reflection.compile;
 
 import javax.tools.JavaCompiler;
 import javax.tools.StandardJavaFileManager;
@@ -14,7 +14,7 @@ public class Compile {
 
     public static void main(String[] args) throws Exception {
         // 生成文件
-        String src = "package tests.reflection;\n" +
+        String src = "package tests.reflection.compile;\n" +
                 "\n" +
                 "public class Person {\n" +
                 "\n" +
@@ -53,7 +53,7 @@ public class Compile {
                 "        return this;\n" +
                 "    }\n" +
                 "}";
-        String         path   = System.getProperty("user.dir") + "/src/tests/reflection/Person.java";
+        String         path   = System.getProperty("user.dir") + "/src/tests/reflection/compile/Person.java";
         BufferedWriter writer = new BufferedWriter(new FileWriter(new File(path)));
         writer.write(src);
         writer.flush();
@@ -84,7 +84,7 @@ public class Compile {
                 new URL("file:/" + System.getProperty("user.dir") + "/src")
         };
         URLClassLoader classLoader = new URLClassLoader(urls);
-        Class          clazz       = classLoader.loadClass("tests.reflection.Person");
+        Class          clazz       = classLoader.loadClass("study.reflection.compile.Person");
         System.out.println(clazz);
 
         Constructor constructor = clazz.getConstructor(Cat.class);

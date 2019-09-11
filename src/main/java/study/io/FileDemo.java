@@ -8,7 +8,7 @@ public class FileDemo {
 
     public static void main(String[] args) {
 
-        String pathname = "D:" + File.separator + "tests";
+        String pathname = "D:" + File.separator + "study";
         File   dir      = new File(pathname);
 
         for (File file : Objects.requireNonNull(dir.listFiles(new FileFilter() {

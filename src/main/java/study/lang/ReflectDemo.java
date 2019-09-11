@@ -55,7 +55,7 @@ public class ReflectDemo {
 
 	public static void main(String[] args) {
 
-		String office = "study.lang.Word";
+		String office = "tests.lang.Word";
 		try {
 			Class<?> klass = Class.forName(office);
 			show((Office) klass.newInstance());
