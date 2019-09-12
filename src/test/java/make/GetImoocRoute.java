@@ -1,5 +1,7 @@
 package make;
 
+import org.junit.Test;
+
 import java.io.*;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
@@ -9,11 +11,13 @@ import java.util.regex.Pattern;
 
 public class GetImoocRoute {
 
-    public static void main(String[] args) {
+    @Test
+    public void run() throws IOException {
         BufferedWriter bufw = null;
         try {
             bufw = new BufferedWriter(new FileWriter("C:/imooc.html"));
-            bufw.write("<!DOCTYPE html><html><head><title>imooc学习路径大全</title><meta charset='utf-8'></head><body><h1>访问网址为http://www.imooc.com/course/programdetail/pid/某数字</h1><br>");
+            bufw.write("<!DOCTYPE html><html><head><title>imooc学习路径大全</title><meta " +
+                    "charset='utf-8'></head><body><h1>访问网址为http://www.imooc.com/course/programdetail/pid/某数字</h1><br>");
             for (int i = 1; i < 500; i++) {
                 String str = findTitle("http://www.imooc.com/course/programdetail/pid/" + i).toString();
                 if (str.equals("[]")) {
@@ -40,8 +44,8 @@ public class GetImoocRoute {
         }
     }
 
-    public static ArrayList<String> findTitle(String url) {
-        ArrayList<String> list   = new ArrayList<>();
+    private ArrayList<String> findTitle(String url) {
+        ArrayList<String> list = new ArrayList<>();
         BufferedReader    reader;
         try {
             reader = new BufferedReader(new InputStreamReader(new URL(url).openStream(), StandardCharsets.UTF_8));
