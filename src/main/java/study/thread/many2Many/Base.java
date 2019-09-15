@@ -1,30 +1,10 @@
-package study.lang;
+package study.thread.many2Many;
 
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-public class ManyProducerManyConsumer {
-
-    public static void main(String[] args) {
-
-        Base b    = new Base();
-        In   in1  = new In(b);
-        In   in2  = new In(b);
-        Out  out1 = new Out(b);
-        Out  out2 = new Out(b);
-        new Thread(in1).start();
-        new Thread(in1).start();
-        new Thread(in2).start();
-        new Thread(in2).start();
-        new Thread(out1).start();
-        new Thread(out1).start();
-        new Thread(out2).start();
-        new Thread(out2).start();
-    }
-}
-
-class Base {
+public class Base {
 
     private int       num  = 100;
     private Lock      lock = new ReentrantLock();
@@ -65,38 +45,6 @@ class Base {
             in.signal();
         } finally {
             lock.unlock();
-        }
-    }
-}
-
-class In implements Runnable {
-
-    private Base b;
-
-    public In(Base b) {
-        super();
-        this.b = b;
-    }
-
-    public void run() {
-        while (true) {
-            b.in();
-        }
-    }
-}
-
-class Out implements Runnable {
-
-    private Base b;
-
-    public Out(Base b) {
-        super();
-        this.b = b;
-    }
-
-    public void run() {
-        while (true) {
-            b.out();
         }
     }
 }
