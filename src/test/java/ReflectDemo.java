@@ -1,8 +1,6 @@
-package study;
-
 import org.junit.Test;
-import study.reflection.pci.MainBoard;
-import study.reflection.pci.PCI;
+import reflection.pci.MainBoard;
+import reflection.pci.PCI;
 
 import java.io.File;
 import java.io.FileInputStream;

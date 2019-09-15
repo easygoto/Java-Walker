@@ -1,4 +1,4 @@
-package study.reflection.pci;
+package reflection.pci;
 
 public class NetCard implements PCI {
     @Override

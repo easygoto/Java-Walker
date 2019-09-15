@@ -1,4 +1,4 @@
-package study.thread.simple;
+package thread.simple;
 
 public class Resource {
 

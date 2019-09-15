@@ -1,4 +1,4 @@
-package study.thread.many2Many;
+package thread.many2Many;
 
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;

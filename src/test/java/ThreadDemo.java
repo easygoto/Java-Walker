@@ -1,13 +1,11 @@
-package study;
-
 import org.junit.Test;
-import study.thread.DeadLock;
-import study.thread.many2Many.Base;
-import study.thread.many2Many.In;
-import study.thread.many2Many.Out;
-import study.thread.simple.Input;
-import study.thread.simple.Output;
-import study.thread.simple.Resource;
+import thread.DeadLock;
+import thread.many2Many.Base;
+import thread.many2Many.In;
+import thread.many2Many.Out;
+import thread.simple.Input;
+import thread.simple.Output;
+import thread.simple.Resource;
 
 public class ThreadDemo {
 

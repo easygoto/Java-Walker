@@ -1,17 +1,17 @@
-package study.thread.many2Many;
+package thread.many2Many;
 
-public class In implements Runnable {
+public class Out implements Runnable {
 
     private Base b;
 
-    public In(Base b) {
+    public Out(Base b) {
         super();
         this.b = b;
     }
 
     public void run() {
         while (true) {
-            b.in();
+            b.out();
         }
     }
 }

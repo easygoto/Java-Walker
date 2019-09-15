@@ -1,16 +1,17 @@
-package study.thread.simple;
+package thread.simple;
 
-public class Input implements Runnable {
+public class Output implements Runnable {
+
     private Resource r;
 
-    public Input(Resource r) {
+    public Output(Resource r) {
         super();
         this.r = r;
     }
 
     public void run() {
         while (true) {
-            r.in();
+            r.out();
         }
     }
 }

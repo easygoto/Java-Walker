@@ -1,4 +1,4 @@
-package study.reflection.compile;
+package reflection.compile;
 
 import javax.tools.JavaCompiler;
 import javax.tools.StandardJavaFileManager;
@@ -84,7 +84,7 @@ public class Compile {
                 new URL("file:/" + System.getProperty("user.dir") + "/src")
         };
         URLClassLoader classLoader = new URLClassLoader(urls);
-        Class          clazz       = classLoader.loadClass("study.reflection.compile.Person");
+        Class          clazz       = classLoader.loadClass("reflection.compile.Person");
         System.out.println(clazz);
 
         Constructor constructor = clazz.getConstructor(Cat.class);

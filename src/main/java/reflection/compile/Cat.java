@@ -1,4 +1,4 @@
-package study.reflection.compile;
+package reflection.compile;
 
 public class Cat {
 

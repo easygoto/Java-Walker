@@ -1,4 +1,4 @@
-package study.thread;
+package thread;
 
 public class DeadLock implements Runnable {
 
