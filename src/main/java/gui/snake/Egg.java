@@ -1,4 +1,4 @@
-package snake;
+package gui.snake;
 
 import java.awt.*;
 import java.util.Random;

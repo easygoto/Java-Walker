@@ -1,4 +1,4 @@
-package snake;
+package gui.snake;
 
 import java.awt.*;
 import java.awt.event.KeyAdapter;
@@ -6,19 +6,21 @@ import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-@SuppressWarnings("serial")
 public class Yard extends Frame {
 
-    PaintThread paintThread = new PaintThread();
-    private boolean gameOver = false;
-    private int score = 0;
-    public static final int ROWS = 40;
-    public static final int COLS = 60;
-    public static final int BLOCK_SIZE = 10;
-
+    Egg   e = new Egg();
     Snake s = new Snake(this);
-    Egg e = new Egg();
+
     Image offScreenImage = null;
+
+    PaintThread paintThread = new PaintThread();
+
+    private int     score    = 0;
+    private boolean gameOver = false;
+
+    public static final int ROWS       = 40;
+    public static final int COLS       = 60;
+    public static final int BLOCK_SIZE = 10;
 
     public void launch() {
         this.setLocation(100, 100);
@@ -34,7 +36,7 @@ public class Yard extends Frame {
             }
         });
         this.setVisible(true);
-        new Thread(paintThread).run();
+        new Thread(paintThread).start();
     }
 
     public static void main(String[] args) {
@@ -61,7 +63,7 @@ public class Yard extends Frame {
         if (gameOver) {
             g.setFont(new Font("宋体", Font.BOLD, 64));
             g.drawString("游戏结束", 10, 80);
-            paintThread.gameover();
+            paintThread.gameOver();
         }
         g.setColor(c);
 
@@ -93,7 +95,7 @@ public class Yard extends Frame {
             }
         }
 
-        public void gameover() {
+        public void gameOver() {
             flag = false;
         }
     }

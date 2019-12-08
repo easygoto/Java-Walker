@@ -1,4 +1,4 @@
-package snake;
+package gui.snake;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -6,17 +6,15 @@ import java.awt.event.KeyEvent;
 public class Snake {
     private Node head = null;
     private Node tail = null;
-    private int size = 0;
-    private Yard y = null;
-
-    private Node n = new Node(30, 20, Dir.R);
+    private int  size = 0;
+    private Yard y    = null;
 
     public Snake(Yard y) {
+        Node n = new Node(30, 20, Dir.R);
         head = n;
         tail = n;
         size = 1;
         this.y = y;
-        ;
     }
 
     public void addToTail() {
@@ -131,11 +129,11 @@ public class Snake {
         }
     }
 
-    class Node {
+    static class Node {
         int w = Yard.BLOCK_SIZE;
         int h = Yard.BLOCK_SIZE;
         int row, col;
-        Dir dir = Dir.L;
+        Dir  dir  = Dir.L;
         Node next = null;
         Node prev = null;
 
