@@ -3,6 +3,8 @@ package gui.snake;
 import java.awt.*;
 import java.util.Random;
 
+import static gui.snake.Yard.UNNECESSARY;
+
 public class Egg {
     private int row, col;
     private int w = Yard.BLOCK_SIZE;
@@ -16,7 +18,7 @@ public class Egg {
     }
 
     public Egg() {
-        this(r.nextInt(Yard.ROWS - 3) + 3, r.nextInt(Yard.COLS));
+        this(r.nextInt(Yard.ROWS - UNNECESSARY) + UNNECESSARY, r.nextInt(Yard.COLS));
     }
 
     public Rectangle getRect() {
@@ -47,7 +49,7 @@ public class Egg {
     }
 
     public void reAppear() {
-        this.row = r.nextInt(Yard.ROWS - 3) + 3;
+        this.row = r.nextInt(Yard.ROWS - UNNECESSARY) + UNNECESSARY;
         this.col = r.nextInt(Yard.ROWS);
     }
 }

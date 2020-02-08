@@ -8,8 +8,9 @@ import java.awt.event.WindowEvent;
 
 public class Yard extends Frame {
 
-    Egg   e = new Egg();
-    Snake s = new Snake(this);
+    Egg egg = new Egg();
+
+    Snake snake = new Snake(this);
 
     Image offScreenImage = null;
 
@@ -22,17 +23,27 @@ public class Yard extends Frame {
     public static final int COLS       = 60;
     public static final int BLOCK_SIZE = 10;
 
+    /**
+     * 因为 windows 下对话框头部会占大约 30 的距离
+     */
+    public static final int UNNECESSARY = (int) Math.ceil(((double) 30 / BLOCK_SIZE));
+
+    /**
+     * 游戏的主界面
+     */
     public void launch() {
         this.setLocation(100, 100);
         this.setSize(COLS * BLOCK_SIZE, ROWS * BLOCK_SIZE);
         this.addWindowListener(new WindowAdapter() {
+            @Override
             public void windowClosing(WindowEvent e) {
                 System.exit(0);
             }
         });
         this.addKeyListener(new KeyAdapter() {
+            @Override
             public void keyPressed(KeyEvent e) {
-                s.keyPressed(e);
+                snake.keyPressed(e);
             }
         });
         this.setVisible(true);
@@ -43,12 +54,18 @@ public class Yard extends Frame {
         new Yard().launch();
     }
 
+    /**
+     * 游戏结束
+     */
     public void stop() {
         gameOver = true;
     }
 
+    @Override
     public void paint(Graphics g) {
         Color c = g.getColor();
+
+        // 绘图主界面
         g.setColor(Color.GRAY);
         g.fillRect(0, 0, COLS * BLOCK_SIZE, ROWS * BLOCK_SIZE);
         g.setColor(Color.DARK_GRAY);
@@ -60,6 +77,8 @@ public class Yard extends Frame {
         }
         g.setColor(Color.YELLOW);
         g.drawString("score: " + score, 10, 60);
+
+        // 游戏结束
         if (gameOver) {
             g.setFont(new Font("宋体", Font.BOLD, 64));
             g.drawString("游戏结束", 10, 80);
@@ -67,11 +86,12 @@ public class Yard extends Frame {
         }
         g.setColor(c);
 
-        s.eat(e);
-        s.draw(g);
-        e.draw(g);
+        snake.eat(egg);
+        snake.draw(g);
+        egg.draw(g);
     }
 
+    @Override
     public void update(Graphics g) {
         if (offScreenImage == null) {
             offScreenImage = this.createImage(COLS * BLOCK_SIZE, ROWS * BLOCK_SIZE);
@@ -84,6 +104,7 @@ public class Yard extends Frame {
     public class PaintThread implements Runnable {
         private boolean flag = true;
 
+        @Override
         public void run() {
             while (flag) {
                 repaint();

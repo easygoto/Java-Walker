@@ -3,23 +3,26 @@ package gui.snake;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 
-public class Snake {
-    private Node head = null;
-    private Node tail = null;
-    private int  size = 0;
-    private Yard y    = null;
+import static gui.snake.Yard.UNNECESSARY;
 
-    public Snake(Yard y) {
+public class Snake {
+    private Node head;
+    private Node tail;
+    private int  size;
+    private Yard yard;
+
+    public Snake(Yard yard) {
         Node n = new Node(30, 20, Dir.R);
         head = n;
         tail = n;
         size = 1;
-        this.y = y;
+        this.yard = yard;
     }
 
     public void addToTail() {
-        Node node = null;
+        Node node;
         switch (tail.dir) {
+            default:
             case L:
                 node = new Node(tail.row, tail.col + 1, tail.dir);
                 break;
@@ -40,8 +43,9 @@ public class Snake {
     }
 
     public void addToHead() {
-        Node node = null;
+        Node node;
         switch (head.dir) {
+            default:
             case L:
                 node = new Node(head.row, head.col - 1, head.dir);
                 break;
@@ -62,7 +66,9 @@ public class Snake {
     }
 
     public void draw(Graphics g) {
-        if (size < 0) return;
+        if (size < 0) {
+            return;
+        }
         move();
         for (Node n = head; n != null; n = n.next) {
             n.draw(g);
@@ -76,27 +82,28 @@ public class Snake {
     }
 
     public void checkDead() {
-        if (head.row < 3 || head.col < 0 || head.row > Yard.ROWS || head.col > Yard.COLS) {
-            y.stop();
+        if (head.row < UNNECESSARY || head.col < 0 || head.row > Yard.ROWS || head.col > Yard.COLS) {
+            yard.stop();
         }
         for (Node n = head.next; size > 1 && n != null; n = n.next) {
             if ((head.row == n.row) && (head.col == n.col)) {
-                y.stop();
+                yard.stop();
             }
         }
     }
 
     public void deleteFromTail() {
-        if (tail == null)
+        if (tail == null) {
             return;
+        }
         tail = tail.prev;
         tail.next = null;
     }
 
-    public void eat(Egg e) {
-        if (this.getRect().intersects(e.getRect())) {
-            e.reAppear();
-            y.setScore(y.getScore() + 5);
+    public void eat(Egg egg) {
+        if (this.getRect().intersects(egg.getRect())) {
+            egg.reAppear();
+            yard.setScore(yard.getScore() + 5);
             this.addToHead();
         }
     }
@@ -109,20 +116,24 @@ public class Snake {
         int key = e.getKeyCode();
         switch (key) {
             case KeyEvent.VK_LEFT:
-                if (head.dir != Dir.R)
+                if (head.dir != Dir.R) {
                     head.dir = Dir.L;
+                }
                 break;
             case KeyEvent.VK_RIGHT:
-                if (head.dir != Dir.L)
+                if (head.dir != Dir.L) {
                     head.dir = Dir.R;
+                }
                 break;
             case KeyEvent.VK_UP:
-                if (head.dir != Dir.D)
+                if (head.dir != Dir.D) {
                     head.dir = Dir.U;
+                }
                 break;
             case KeyEvent.VK_DOWN:
-                if (head.dir != Dir.U)
+                if (head.dir != Dir.U) {
                     head.dir = Dir.D;
+                }
                 break;
             default:
                 break;

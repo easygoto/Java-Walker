@@ -1,5 +1,14 @@
 package gui.snake;
 
 public enum Dir {
-    L, U, R, D
+    /**
+     * L(左)
+     * U(上)
+     * R(右)
+     * D(下)
+     */
+    L,
+    U,
+    R,
+    D
 }
