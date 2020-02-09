@@ -1,4 +1,4 @@
-package dp.AbstractFactory;
+package dp.abstractfactory;
 
 import org.junit.Test;
 
@@ -8,7 +8,7 @@ public class AbstractFactoryTest {
     public void abstractFactory() {
         DefaultFactory defaultFactory = new DefaultFactory();
         defaultFactory.createCar().run();
-        defaultFactory.createAK47().shoot();
+        defaultFactory.createAk47().shoot();
         defaultFactory.createApple().printName();
 
         MagicFactory magicFactory = new MagicFactory();

@@ -1,9 +1,12 @@
-package dp.AbstractFactory;
+package dp.abstractfactory;
 
-import dp.AbstractFactory.model.vehicle.Broom;
-import dp.AbstractFactory.model.weapon.MagicStick;
-import dp.AbstractFactory.model.food.MushRoom;
+import dp.abstractfactory.model.vehicle.Broom;
+import dp.abstractfactory.model.weapon.MagicStick;
+import dp.abstractfactory.model.food.MushRoom;
 
+/**
+ * @author trink
+ */
 public class MagicFactory {
 
     public Broom createBroom() {
