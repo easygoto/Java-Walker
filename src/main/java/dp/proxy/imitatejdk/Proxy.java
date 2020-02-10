@@ -68,7 +68,8 @@ public class Proxy {
                 "        this.handler = handler;" + LINE_BREAK +
                 "    }" + LINE_BREAK + LINE_BREAK + methodText +
                 "}" + LINE_BREAK;
-        String         path   = System.getProperty("user.dir") + "/src/main/java/com/trink/Proxy/ImitateJDK/Cache/TempProxy.java";
+        String         path   = System.getProperty("user.dir") + "/src/main/java/proxy/imitatejdk/Cache/TempProxy" +
+                ".java";
         BufferedWriter writer = new BufferedWriter(new FileWriter(new File(path)));
         writer.write(src);
         writer.flush();

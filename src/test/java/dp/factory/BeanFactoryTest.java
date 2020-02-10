@@ -1,7 +1,5 @@
-package dp.factory.beanfactory;
+package dp.factory;
 
-import dp.factory.Bean;
-import dp.factory.Movable;
 import org.junit.Test;
 
 public class BeanFactoryTest {

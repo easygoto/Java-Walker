@@ -12,7 +12,7 @@ public class Bean {
     public static Object get(String id) {
         Object     object   = null;
         Properties props    = new Properties();
-        String     fileName = "src/main/java/com/trink/Factory/BeanFactory/beans.properties";
+        String     fileName = "src/main/java/dp/factory/beans.properties";
         try {
             props.load(new BufferedInputStream(new FileInputStream(fileName)));
             String vehicleTypeName = props.getProperty(id);
