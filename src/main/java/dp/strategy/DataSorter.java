@@ -1,5 +1,8 @@
-package dp.Strategy;
+package dp.strategy;
 
+/**
+ * @author trink
+ */
 public class DataSorter {
 
     private static void swap(Object[] arr, int x, int y) {

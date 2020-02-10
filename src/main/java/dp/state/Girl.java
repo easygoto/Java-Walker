@@ -1,20 +1,23 @@
-package dp.State;
+package dp.state;
 
+/**
+ * @author trink
+ */
 public class Girl {
 
     private String name;
 
-    private GirlState girlState = new GirlHappyState();
+    private BaseGirlState girlState = new GirlHappyState();
 
     public String getName() {
         return name;
     }
 
-    public GirlState getGirlState() {
+    public BaseGirlState getGirlState() {
         return girlState;
     }
 
-    public void setGirlState(GirlState girlState) {
+    public void setGirlState(BaseGirlState girlState) {
         this.girlState = girlState;
     }
 

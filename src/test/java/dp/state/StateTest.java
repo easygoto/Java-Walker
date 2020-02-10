@@ -1,4 +1,4 @@
-package dp.State;
+package dp.state;
 
 import org.junit.Test;
 

@@ -1,5 +1,8 @@
-package dp.Iterator;
+package dp.iterator;
 
+/**
+ * @author trink
+ */
 public class Cat {
 
     private int id;
@@ -16,6 +19,7 @@ public class Cat {
         this.id = id;
     }
 
+    @Override
     public String toString() {
         return "Cat: " + id;
     }

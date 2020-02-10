@@ -1,5 +1,8 @@
-package dp.Strategy;
+package dp.strategy;
 
+/**
+ * @author trink
+ */
 public class Cat implements Comparable {
 
     private int width;
@@ -28,16 +31,13 @@ public class Cat implements Comparable {
 
     @Override
     public String toString() {
-        return "Cat{" +
-                "width=" + width +
-                ", height=" + height +
-                '}';
+        return "Cat{" + "width=" + width + ", height=" + height + '}';
     }
 
     @Override
     public int compareTo(Object object) {
         if (object instanceof Cat) {
-            Cat cat  = (Cat) object;
+            Cat cat = (Cat) object;
             int temp = Integer.compare(this.getWidth(), cat.getWidth());
             return temp == 0 ? Integer.compare(this.getHeight(), cat.getHeight()) : temp;
         }

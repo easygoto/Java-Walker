@@ -1,5 +1,8 @@
-package dp.Strategy;
+package dp.strategy;
 
+/**
+ * @author trink
+ */
 public class PigVoiceComparator implements Comparator {
 
     @Override

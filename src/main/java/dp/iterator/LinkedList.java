@@ -1,12 +1,15 @@
-package dp.Iterator;
+package dp.iterator;
 
+/**
+ * @author trink
+ */
 public class LinkedList implements Connection {
 
     private Node head = null;
     private Node tail = null;
     private int  index = 0;
 
-    private class Node {
+    private static class Node {
         private Object data;
         private Node   next;
 
@@ -36,6 +39,7 @@ public class LinkedList implements Connection {
         }
     }
 
+    @Override
     public void add(Object o) {
         Node node = new Node(o, null);
         if (head == null) {
@@ -47,10 +51,12 @@ public class LinkedList implements Connection {
         index++;
     }
 
+    @Override
     public int size() {
         return index;
     }
 
+    @Override
     public Iterator iterator() {
         return new LinkedListIterator();
     }

@@ -1,6 +1,9 @@
-package dp.State;
+package dp.state;
 
-public class GirlSadState extends GirlState {
+/**
+ * @author trink
+ */
+public class GirlSadState extends BaseGirlState {
 
     @Override
     void smile() {

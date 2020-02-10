@@ -1,10 +1,13 @@
-package dp.Singleton;
+package dp.singleton;
 
 import java.util.Random;
 
+/**
+ * @author trink
+ */
 public class HungrySingleton {
 
-    private static final HungrySingleton instance = new HungrySingleton();
+    private static final HungrySingleton INSTANCE = new HungrySingleton();
 
     private int id;
 
@@ -13,7 +16,7 @@ public class HungrySingleton {
     }
 
     public synchronized static HungrySingleton getInstance() {
-        return instance;
+        return INSTANCE;
     }
 
     public int getId() {

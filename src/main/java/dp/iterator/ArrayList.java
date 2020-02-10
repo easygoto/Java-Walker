@@ -1,10 +1,14 @@
-package dp.Iterator;
+package dp.iterator;
 
+/**
+ * @author trink
+ */
 public class ArrayList implements Connection {
 
     private Object[] objectList = new Object[10];
     private int      index      = 0;
 
+    @Override
     public void add(Object object) {
         if (index == objectList.length) {
             Object[] newObjectList = new Object[objectList.length * 2];
@@ -15,10 +19,12 @@ public class ArrayList implements Connection {
         index++;
     }
 
+    @Override
     public int size() {
         return index;
     }
 
+    @Override
     public Iterator iterator() {
         return new ArrayListIterator();
     }
@@ -27,10 +33,12 @@ public class ArrayList implements Connection {
 
         private int currentIndex = 0;
 
+        @Override
         public Object next() {
             return objectList[currentIndex++];
         }
 
+        @Override
         public boolean hasNext() {
             return currentIndex < index;
         }

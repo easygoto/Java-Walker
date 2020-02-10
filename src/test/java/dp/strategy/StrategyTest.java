@@ -1,4 +1,4 @@
-package dp.Strategy;
+package dp.strategy;
 
 import org.junit.Before;
 import org.junit.Test;

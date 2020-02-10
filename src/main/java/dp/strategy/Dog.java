@@ -1,5 +1,8 @@
-package dp.Strategy;
+package dp.strategy;
 
+/**
+ * @author trink
+ */
 public class Dog implements Comparable {
 
     private int food;

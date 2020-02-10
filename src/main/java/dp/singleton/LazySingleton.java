@@ -1,7 +1,10 @@
-package dp.Singleton;
+package dp.singleton;
 
 import java.util.Random;
 
+/**
+ * @author trink
+ */
 public class LazySingleton {
 
     private static volatile LazySingleton instance = null;
