@@ -1,26 +1,34 @@
 package gui.tankwar;
 
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+/**
+ * @author trink
+ */
 public class TankClient extends Frame {
 
-    public static final int GAME_HEADER = 30;
-    public static final int GAME_WIDTH  = 160;
-    public static final int GAME_HEIGHT = 120 + GAME_HEADER;
+    public static final int GAME_HEADER  = 60;
+    public static final int GAME_LEFTER  = 30;
+    public static final int GAME_RIGHTER = 30;
+    public static final int GAME_FOOTER  = 30;
+    public static final int MAIN_X       = 100;
+    public static final int MAIN_Y       = 100;
+    public static final int MAIN_WIDTH   = 800;
+    public static final int MAIN_HEIGHT  = 600;
+    public static final int GAME_WIDTH   = MAIN_WIDTH + GAME_LEFTER + GAME_RIGHTER;
+    public static final int GAME_HEIGHT  = MAIN_HEIGHT + GAME_HEADER + GAME_FOOTER;
 
-    int tankX = 50, tankY = 50, tankW = 30, tankH = 30;
-    int mainX = 100, mainY = 100;
-    int timeSpace = 100;
-    int speed = 5;
+    int timeSpace = 100, speed = 100;
 
-    boolean dir = true;
+    Tank tank = new Tank(GAME_LEFTER + 50, GAME_HEADER + 50);
 
     Color defaultBgColor   = Color.CYAN;
-    Color defaultTankColor = Color.MAGENTA;
-
-    Image offScreenImage = null;
+    Color defaultLineColor = Color.LIGHT_GRAY;
+    Image offScreenImage   = null;
 
     @Override
     public void update(Graphics g) {
@@ -32,7 +40,7 @@ public class TankClient extends Frame {
         Graphics gOffScreen = offScreenImage.getGraphics();
         Color oldColor = gOffScreen.getColor();
         gOffScreen.setColor(defaultBgColor);
-        gOffScreen.fillRect(0, GAME_HEADER, GAME_WIDTH, GAME_HEIGHT);
+        gOffScreen.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
         gOffScreen.setColor(oldColor);
         paint(gOffScreen);
         g.drawImage(offScreenImage, 0, 0, null);
@@ -40,37 +48,35 @@ public class TankClient extends Frame {
 
     @Override
     public void paint(Graphics g) {
-        Color color = g.getColor();
-        g.setColor(defaultTankColor);
-        g.fillOval(tankX, tankY, tankW, tankH);
-        g.setColor(color);
+        this.paintMainZone(g);
+        tank.draw(g);
+    }
 
-        if (tankY + tankH + speed >= GAME_HEIGHT) {
-            dir = false;
-        } else if (tankY <= GAME_HEADER) {
-            dir = true;
-        }
-        if (dir) {
-            tankY += speed;
-        } else {
-            tankY -= speed;
-        }
+    public void paintMainZone(Graphics g) {
+        Color color = g.getColor();
+        g.setColor(defaultLineColor);
+        g.drawLine(GAME_LEFTER, GAME_HEADER, GAME_LEFTER + MAIN_WIDTH, GAME_HEADER);
+        g.drawLine(GAME_LEFTER, GAME_HEADER + MAIN_HEIGHT, GAME_LEFTER + MAIN_WIDTH, GAME_HEADER + MAIN_HEIGHT);
+        g.drawLine(GAME_LEFTER, GAME_HEADER, GAME_LEFTER, GAME_HEADER + MAIN_HEIGHT);
+        g.drawLine(GAME_LEFTER + MAIN_WIDTH, GAME_HEADER, GAME_LEFTER + MAIN_WIDTH, GAME_HEADER + MAIN_HEIGHT);
+        g.setColor(color);
     }
 
     public void launchFrame() {
-        this.setLocation(mainX, mainY);
+        this.setLocation(MAIN_X, MAIN_Y);
         this.setSize(GAME_WIDTH, GAME_HEIGHT);
+        this.setResizable(false);
+        this.setTitle("TankWar");
+        this.setBackground(defaultBgColor);
         this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
                 System.exit(0);
             }
         });
-        this.setResizable(false);
-        this.setVisible(true);
-        this.setTitle("TankWar");
-        this.setBackground(defaultBgColor);
+        this.addKeyListener(new KeyMonitor());
 
+        setVisible(true);
         new Thread(new PaintThread()).start();
     }
 
@@ -83,13 +89,26 @@ public class TankClient extends Frame {
         @Override
         public void run() {
             while (true) {
-                repaint(); // 自己先会调用 update 后调用 paint 方法
+                // 自己先会调用 update 后调用 paint 方法
+                repaint();
                 try {
                     Thread.sleep(timeSpace);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
+        }
+    }
+
+    private class KeyMonitor extends KeyAdapter {
+        @Override
+        public void keyReleased(KeyEvent e) {
+            tank.keyReleased(e);
+        }
+
+        @Override
+        public void keyPressed(KeyEvent e) {
+            tank.keyPressed(e);
         }
     }
 }
