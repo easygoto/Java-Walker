@@ -22,9 +22,11 @@ public class TankClient extends Frame {
     public static final int GAME_WIDTH   = MAIN_WIDTH + GAME_LEFTER + GAME_RIGHTER;
     public static final int GAME_HEIGHT  = MAIN_HEIGHT + GAME_HEADER + GAME_FOOTER;
 
-    int timeSpace = 100, speed = 100;
+    int timeSpace = 100;
 
-    Tank tank = new Tank(GAME_LEFTER + 50, GAME_HEADER + 50);
+    Tank tank = new Tank(GAME_LEFTER + 50, GAME_HEADER + 50, this);
+
+    Missile missile = null;
 
     Color defaultBgColor   = Color.CYAN;
     Color defaultLineColor = Color.LIGHT_GRAY;
@@ -50,6 +52,10 @@ public class TankClient extends Frame {
     public void paint(Graphics g) {
         this.paintMainZone(g);
         tank.draw(g);
+
+        if (missile != null) {
+            missile.draw(g);
+        }
     }
 
     public void paintMainZone(Graphics g) {

@@ -3,16 +3,18 @@ package gui.tankwar;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 
-import static gui.tankwar.TankClient.*;
-
 /**
  * @author trink
  */
 public class Tank {
+    public static final int WIDTH = 50;
+    public static final int HEIGHT = 50;
     int xSpeed = 10, ySpeed = 10;
-    int x, y, w = 50, h = 50;
+    int x, y;
 
     boolean bL = false, bU = false, bR = false, bD = false;
+
+    private TankClient tc;
 
     enum Direction {
         /**
@@ -22,6 +24,7 @@ public class Tank {
     }
 
     Direction dir = Direction.STOP;
+    Direction shootDir = Direction.U;
 
     Color defaultTankColor = Color.MAGENTA;
 
@@ -30,13 +33,54 @@ public class Tank {
         this.y = y;
     }
 
+    public Tank(int x, int y, TankClient tc) {
+        this(x, y);
+        this.tc = tc;
+    }
+
     public void draw(Graphics g) {
         Color c = g.getColor();
         g.setColor(defaultTankColor);
-        g.fillOval(x, y, w, h);
+        g.fillOval(x, y, WIDTH, HEIGHT);
         g.setColor(c);
 
+        drawShoot(g);
         move();
+    }
+
+    public void drawShoot(Graphics g) {
+        Color c = g.getColor();
+        g.setColor(Color.BLACK);
+        switch (shootDir) {
+            default:
+            case STOP:
+                break;
+            case L:
+                g.drawLine(x + WIDTH / 2, y + HEIGHT / 2, x, y + HEIGHT / 2);
+                break;
+            case R:
+                g.drawLine(x + WIDTH / 2, y + HEIGHT / 2, x + WIDTH, y + HEIGHT / 2);
+                break;
+            case U:
+                g.drawLine(x + WIDTH / 2, y + HEIGHT / 2, x + WIDTH / 2, y);
+                break;
+            case D:
+                g.drawLine(x + WIDTH / 2, y + HEIGHT / 2, x + WIDTH / 2, y + HEIGHT);
+                break;
+            case LU:
+                g.drawLine(x + WIDTH / 2, y + HEIGHT / 2, x, y);
+                break;
+            case LD:
+                g.drawLine(x + WIDTH / 2, y + HEIGHT / 2, x, y + HEIGHT);
+                break;
+            case RU:
+                g.drawLine(x + WIDTH / 2, y + HEIGHT / 2, x + WIDTH, y);
+                break;
+            case RD:
+                g.drawLine(x + WIDTH / 2, y + HEIGHT / 2, x + WIDTH, y + HEIGHT);
+                break;
+        }
+        g.setColor(c);
     }
 
     public void move() {
@@ -74,25 +118,33 @@ public class Tank {
                 break;
         }
 
-        int tankMaxX = GAME_WIDTH - GAME_RIGHTER - w;
-        int tankMaxY = GAME_HEIGHT - GAME_FOOTER - h;
+        int tankMaxX = TankClient.GAME_WIDTH - TankClient.GAME_RIGHTER - WIDTH;
+        int tankMaxY = TankClient.GAME_HEIGHT - TankClient.GAME_FOOTER - HEIGHT;
         if (x >= tankMaxX) {
             x = tankMaxX;
-        } else if (x <= GAME_LEFTER) {
-            x = GAME_LEFTER;
+        } else if (x <= TankClient.GAME_LEFTER) {
+            x = TankClient.GAME_LEFTER;
         }
         if (y >= tankMaxY) {
             y = tankMaxY;
-        } else if (y <= GAME_HEADER) {
-            y = GAME_HEADER;
+        } else if (y <= TankClient.GAME_HEADER) {
+            y = TankClient.GAME_HEADER;
+        }
+
+        if (this.dir != Direction.STOP) {
+            this.shootDir = this.dir;
         }
     }
 
     public void keyPressed(KeyEvent e) {
         int keyCode = e.getKeyCode();
-        System.out.println(keyCode);
         switch (keyCode) {
             default:
+                break;
+            case KeyEvent.VK_CONTROL:
+            case KeyEvent.VK_SPACE:
+                tc.missile = fire();
+                break;
             case KeyEvent.VK_RIGHT:
             case KeyEvent.VK_D:
                 bR = true;
@@ -113,10 +165,15 @@ public class Tank {
         locateDirection();
     }
 
+    public Missile fire() {
+        return new Missile(x + WIDTH / 2 - Missile.WIDTH / 2, y + HEIGHT / 2  - Missile.HEIGHT / 2, shootDir);
+    }
+
     public void keyReleased(KeyEvent e) {
         int keyCode = e.getKeyCode();
         switch (keyCode) {
             default:
+                break;
             case KeyEvent.VK_RIGHT:
             case KeyEvent.VK_D:
                 bR = false;
