@@ -14,7 +14,7 @@ public class Tank {
 
     boolean bL = false, bU = false, bR = false, bD = false;
 
-    private TankClient tankClient;
+    private TankClient tc;
 
     private boolean robot;
 
@@ -40,9 +40,9 @@ public class Tank {
         this.robot = robot;
     }
 
-    public Tank(int x, int y, boolean robot, TankClient tankClient) {
+    public Tank(int x, int y, boolean robot, TankClient tc) {
         this(x, y, robot);
-        this.tankClient = tankClient;
+        this.tc = tc;
     }
 
     public void draw(Graphics g) {
@@ -177,7 +177,7 @@ public class Tank {
     }
 
     public Missile fire() {
-        return new Missile(x + WIDTH / 2 - Missile.WIDTH / 2, y + HEIGHT / 2 - Missile.HEIGHT / 2, shootDir, tankClient);
+        return new Missile(x + WIDTH / 2 - Missile.WIDTH / 2, y + HEIGHT / 2 - Missile.HEIGHT / 2, shootDir, tc);
     }
 
     public void keyReleased(KeyEvent e) {
@@ -187,7 +187,7 @@ public class Tank {
                 break;
             case KeyEvent.VK_CONTROL:
             case KeyEvent.VK_SPACE:
-                tankClient.missiles.add(fire());
+                tc.missiles.add(fire());
                 break;
             case KeyEvent.VK_RIGHT:
             case KeyEvent.VK_D:

@@ -6,7 +6,9 @@ import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author trink
@@ -31,6 +33,7 @@ public class TankClient extends Frame {
     Tank robotTank = new Tank(GAME_LEFTER + 100, GAME_HEADER + 100, true, this);
 
     List<Missile> missiles = new ArrayList<>();
+    List<Boom>    booms    = new ArrayList<>();
 
     Color defaultBgColor   = Color.CYAN;
     Color defaultLineColor = Color.LIGHT_GRAY;
@@ -58,13 +61,22 @@ public class TankClient extends Frame {
         tank.draw(g);
         robotTank.draw(g);
 
-        for (int i = 0; i < missiles.size(); i++) {
-            Missile missile = missiles.get(i);
-            missile.hitTank(robotTank);
-            if (!missile.isAlive()) {
-                missiles.remove(missile);
+        for (Iterator<Boom> iterator = booms.iterator(); iterator.hasNext(); ) {
+            Boom boom = iterator.next();
+            if (boom.isAlive()) {
+                boom.draw(g);
             } else {
+                iterator.remove();
+            }
+        }
+
+        for (Iterator<Missile> iterator = missiles.iterator(); iterator.hasNext(); ) {
+            Missile missile = iterator.next();
+            if (missile.isAlive()) {
+                missile.hitTank(robotTank);
                 missile.draw(g);
+            } else {
+                iterator.remove();
             }
         }
     }
@@ -72,7 +84,6 @@ public class TankClient extends Frame {
     public void paintMainZone(Graphics g) {
         Color color = g.getColor();
         g.setColor(defaultLineColor);
-        g.drawString("missile count : " + missiles.size(), GAME_LEFTER, GAME_HEADER);
         g.drawLine(GAME_LEFTER, GAME_HEADER, GAME_LEFTER + MAIN_WIDTH, GAME_HEADER);
         g.drawLine(GAME_LEFTER, GAME_HEADER + MAIN_HEIGHT, GAME_LEFTER + MAIN_WIDTH, GAME_HEADER + MAIN_HEIGHT);
         g.drawLine(GAME_LEFTER, GAME_HEADER, GAME_LEFTER, GAME_HEADER + MAIN_HEIGHT);

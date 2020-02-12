@@ -11,7 +11,7 @@ public class Missile {
 
     private boolean alive = true;
 
-    private TankClient tankClient;
+    private TankClient tc;
 
     int xSpeed = 20, ySpeed = 20;
     int x, y;
@@ -25,14 +25,13 @@ public class Missile {
         this.dir = dir;
     }
 
-    public Missile(int x, int y, Tank.Direction dir, TankClient tankClient) {
+    public Missile(int x, int y, Tank.Direction dir, TankClient tc) {
         this(x, y, dir);
-        this.tankClient = tankClient;
+        this.tc = tc;
     }
 
     public void draw(Graphics g) {
         if (!alive) {
-            tankClient.missiles.remove(this);
             return;
         }
         Color c = g.getColor();
@@ -89,8 +88,10 @@ public class Missile {
      */
     public boolean hitTank(Tank tank) {
         if (tank.isAlive() && this.getRect().intersects(tank.getRect())) {
-            tank.setAlive(false);
             this.alive = false;
+            tank.setAlive(false);
+            Boom boom = new Boom(x, y, tc);
+            tc.booms.add(boom);
             return true;
         }
         return false;
