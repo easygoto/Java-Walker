@@ -5,6 +5,8 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author trink
@@ -24,9 +26,11 @@ public class TankClient extends Frame {
 
     int timeSpace = 100;
 
-    Tank tank = new Tank(GAME_LEFTER + 50, GAME_HEADER + 50, this);
+    Tank tank = new Tank(GAME_LEFTER + 50, GAME_HEADER + 50, false, this);
 
-    Missile missile = null;
+    Tank robotTank = new Tank(GAME_LEFTER + 100, GAME_HEADER + 100, true, this);
+
+    List<Missile> missiles = new ArrayList<>();
 
     Color defaultBgColor   = Color.CYAN;
     Color defaultLineColor = Color.LIGHT_GRAY;
@@ -52,15 +56,23 @@ public class TankClient extends Frame {
     public void paint(Graphics g) {
         this.paintMainZone(g);
         tank.draw(g);
+        robotTank.draw(g);
 
-        if (missile != null) {
-            missile.draw(g);
+        for (int i = 0; i < missiles.size(); i++) {
+            Missile missile = missiles.get(i);
+            missile.hitTank(robotTank);
+            if (!missile.isAlive()) {
+                missiles.remove(missile);
+            } else {
+                missile.draw(g);
+            }
         }
     }
 
     public void paintMainZone(Graphics g) {
         Color color = g.getColor();
         g.setColor(defaultLineColor);
+        g.drawString("missile count : " + missiles.size(), GAME_LEFTER, GAME_HEADER);
         g.drawLine(GAME_LEFTER, GAME_HEADER, GAME_LEFTER + MAIN_WIDTH, GAME_HEADER);
         g.drawLine(GAME_LEFTER, GAME_HEADER + MAIN_HEIGHT, GAME_LEFTER + MAIN_WIDTH, GAME_HEADER + MAIN_HEIGHT);
         g.drawLine(GAME_LEFTER, GAME_HEADER, GAME_LEFTER, GAME_HEADER + MAIN_HEIGHT);

@@ -2,15 +2,16 @@ package gui.tankwar;
 
 import java.awt.*;
 
-import static gui.tankwar.TankClient.*;
-import static gui.tankwar.TankClient.GAME_HEADER;
-
 /**
  * @author trink
  */
 public class Missile {
-    public static final int WIDTH = 10;
+    public static final int WIDTH  = 10;
     public static final int HEIGHT = 10;
+
+    private boolean alive = true;
+
+    private TankClient tankClient;
 
     int xSpeed = 20, ySpeed = 20;
     int x, y;
@@ -24,7 +25,16 @@ public class Missile {
         this.dir = dir;
     }
 
+    public Missile(int x, int y, Tank.Direction dir, TankClient tankClient) {
+        this(x, y, dir);
+        this.tankClient = tankClient;
+    }
+
     public void draw(Graphics g) {
+        if (!alive) {
+            tankClient.missiles.remove(this);
+            return;
+        }
         Color c = g.getColor();
         g.setColor(defaultMissileColor);
         g.fillOval(x, y, WIDTH, HEIGHT);
@@ -33,6 +43,9 @@ public class Missile {
         move();
     }
 
+    /**
+     * 移动
+     */
     public void move() {
         switch (dir) {
             default:
@@ -66,5 +79,40 @@ public class Missile {
                 y += ySpeed;
                 break;
         }
+        checkAlive();
+    }
+
+    /**
+     * 撞击坦克
+     *
+     * @return boolean
+     */
+    public boolean hitTank(Tank tank) {
+        if (tank.isAlive() && this.getRect().intersects(tank.getRect())) {
+            tank.setAlive(false);
+            this.alive = false;
+            return true;
+        }
+        return false;
+    }
+
+    public Rectangle getRect() {
+        return new Rectangle(x, y, WIDTH, HEIGHT);
+    }
+
+    /**
+     * 检查是否存在
+     */
+    public void checkAlive() {
+        if (x >= TankClient.MAIN_WIDTH + TankClient.GAME_LEFTER || x <= TankClient.GAME_LEFTER - WIDTH) {
+            alive = false;
+        }
+        if (y >= TankClient.MAIN_HEIGHT + TankClient.GAME_HEADER || y <= TankClient.GAME_HEADER - HEIGHT) {
+            alive = false;
+        }
+    }
+
+    public boolean isAlive() {
+        return alive;
     }
 }

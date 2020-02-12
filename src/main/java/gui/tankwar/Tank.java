@@ -7,14 +7,18 @@ import java.awt.event.KeyEvent;
  * @author trink
  */
 public class Tank {
-    public static final int WIDTH = 50;
+    public static final int WIDTH  = 50;
     public static final int HEIGHT = 50;
     int xSpeed = 10, ySpeed = 10;
     int x, y;
 
     boolean bL = false, bU = false, bR = false, bD = false;
 
-    private TankClient tc;
+    private TankClient tankClient;
+
+    private boolean robot;
+
+    private boolean alive = true;
 
     enum Direction {
         /**
@@ -24,23 +28,34 @@ public class Tank {
     }
 
     Direction dir = Direction.STOP;
+
     Direction shootDir = Direction.U;
 
     Color defaultTankColor = Color.MAGENTA;
+    Color robotTankColor   = Color.ORANGE;
 
-    public Tank(int x, int y) {
+    public Tank(int x, int y, boolean robot) {
         this.x = x;
         this.y = y;
+        this.robot = robot;
     }
 
-    public Tank(int x, int y, TankClient tc) {
-        this(x, y);
-        this.tc = tc;
+    public Tank(int x, int y, boolean robot, TankClient tankClient) {
+        this(x, y, robot);
+        this.tankClient = tankClient;
     }
 
     public void draw(Graphics g) {
+        if (!alive) {
+            return;
+        }
+
         Color c = g.getColor();
-        g.setColor(defaultTankColor);
+        if (robot) {
+            g.setColor(robotTankColor);
+        } else {
+            g.setColor(defaultTankColor);
+        }
         g.fillOval(x, y, WIDTH, HEIGHT);
         g.setColor(c);
 
@@ -141,10 +156,6 @@ public class Tank {
         switch (keyCode) {
             default:
                 break;
-            case KeyEvent.VK_CONTROL:
-            case KeyEvent.VK_SPACE:
-                tc.missile = fire();
-                break;
             case KeyEvent.VK_RIGHT:
             case KeyEvent.VK_D:
                 bR = true;
@@ -166,13 +177,17 @@ public class Tank {
     }
 
     public Missile fire() {
-        return new Missile(x + WIDTH / 2 - Missile.WIDTH / 2, y + HEIGHT / 2  - Missile.HEIGHT / 2, shootDir);
+        return new Missile(x + WIDTH / 2 - Missile.WIDTH / 2, y + HEIGHT / 2 - Missile.HEIGHT / 2, shootDir, tankClient);
     }
 
     public void keyReleased(KeyEvent e) {
         int keyCode = e.getKeyCode();
         switch (keyCode) {
             default:
+                break;
+            case KeyEvent.VK_CONTROL:
+            case KeyEvent.VK_SPACE:
+                tankClient.missiles.add(fire());
                 break;
             case KeyEvent.VK_RIGHT:
             case KeyEvent.VK_D:
@@ -214,5 +229,18 @@ public class Tank {
         } else {
             dir = Direction.STOP;
         }
+    }
+
+    public Rectangle getRect() {
+        return new Rectangle(x, y, WIDTH, HEIGHT);
+    }
+
+    public boolean isAlive() {
+        return alive;
+    }
+
+    public Tank setAlive(boolean alive) {
+        this.alive = alive;
+        return this;
     }
 }
