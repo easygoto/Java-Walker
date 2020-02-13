@@ -32,7 +32,7 @@ public class Boom {
 
         Color c = g.getColor();
         g.setColor(defaultBoomColor);
-        g.fillOval(x, y, diameter[step], diameter[step]);
+        g.fillOval(x - diameter[step] / 2, y - diameter[step] / 2, diameter[step], diameter[step]);
         step++;
         g.setColor(c);
     }

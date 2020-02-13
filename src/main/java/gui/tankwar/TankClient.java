@@ -8,7 +8,6 @@ import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * @author trink
@@ -26,14 +25,13 @@ public class TankClient extends Frame {
     public static final int GAME_WIDTH   = MAIN_WIDTH + GAME_LEFTER + GAME_RIGHTER;
     public static final int GAME_HEIGHT  = MAIN_HEIGHT + GAME_HEADER + GAME_FOOTER;
 
-    int timeSpace = 100;
+    int timeSpace = 100, robotNum = 10;
 
-    Tank tank = new Tank(GAME_LEFTER + 50, GAME_HEADER + 50, false, this);
-
-    Tank robotTank = new Tank(GAME_LEFTER + 100, GAME_HEADER + 100, true, this);
+    Tank myTank = new Tank(GAME_LEFTER + 50, GAME_HEADER + 50, false, Tank.Direction.STOP, this);
 
     List<Missile> missiles = new ArrayList<>();
     List<Boom>    booms    = new ArrayList<>();
+    List<Tank>    tanks    = new ArrayList<>();
 
     Color defaultBgColor   = Color.CYAN;
     Color defaultLineColor = Color.LIGHT_GRAY;
@@ -58,8 +56,7 @@ public class TankClient extends Frame {
     @Override
     public void paint(Graphics g) {
         this.paintMainZone(g);
-        tank.draw(g);
-        robotTank.draw(g);
+        myTank.draw(g);
 
         for (Iterator<Boom> iterator = booms.iterator(); iterator.hasNext(); ) {
             Boom boom = iterator.next();
@@ -70,10 +67,22 @@ public class TankClient extends Frame {
             }
         }
 
+        for (Iterator<Tank> iterator = tanks.iterator(); iterator.hasNext(); ) {
+            Tank tank = iterator.next();
+            if (tank.isAlive()) {
+                tank.draw(g);
+            } else {
+                if (tank.isRobot()) {
+                    iterator.remove();
+                }
+            }
+        }
+
         for (Iterator<Missile> iterator = missiles.iterator(); iterator.hasNext(); ) {
             Missile missile = iterator.next();
-            if (missile.isAlive()) {
-                missile.hitTank(robotTank);
+            if (missile != null && missile.isAlive()) {
+                missile.hitTank(myTank);
+                missile.hitTanks(tanks);
                 missile.draw(g);
             } else {
                 iterator.remove();
@@ -92,6 +101,10 @@ public class TankClient extends Frame {
     }
 
     public void launchFrame() {
+        for (int i = 0; i < robotNum; i++) {
+            tanks.add(new Tank(GAME_LEFTER + 50 + 60 * (i + 1), GAME_HEADER + 50, true, Tank.Direction.STOP, this));
+        }
+
         this.setLocation(MAIN_X, MAIN_Y);
         this.setSize(GAME_WIDTH, GAME_HEIGHT);
         this.setResizable(false);
@@ -132,12 +145,12 @@ public class TankClient extends Frame {
     private class KeyMonitor extends KeyAdapter {
         @Override
         public void keyReleased(KeyEvent e) {
-            tank.keyReleased(e);
+            myTank.keyReleased(e);
         }
 
         @Override
         public void keyPressed(KeyEvent e) {
-            tank.keyPressed(e);
+            myTank.keyPressed(e);
         }
     }
 }

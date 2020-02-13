@@ -1,6 +1,7 @@
 package gui.tankwar;
 
 import java.awt.*;
+import java.util.List;
 
 /**
  * @author trink
@@ -8,6 +9,8 @@ import java.awt.*;
 public class Missile {
     public static final int WIDTH  = 10;
     public static final int HEIGHT = 10;
+
+    private boolean robot;
 
     private boolean alive = true;
 
@@ -28,6 +31,11 @@ public class Missile {
     public Missile(int x, int y, Tank.Direction dir, TankClient tc) {
         this(x, y, dir);
         this.tc = tc;
+    }
+
+    public Missile(int x, int y, Tank.Direction dir, boolean robot, TankClient tc) {
+        this(x, y, dir, tc);
+        this.robot = robot;
     }
 
     public void draw(Graphics g) {
@@ -87,10 +95,10 @@ public class Missile {
      * @return boolean
      */
     public boolean hitTank(Tank tank) {
-        if (tank.isAlive() && this.getRect().intersects(tank.getRect())) {
+        if (alive && tank.isAlive() && this.getRect().intersects(tank.getRect()) && tank.isRobot() != robot) {
             this.alive = false;
             tank.setAlive(false);
-            Boom boom = new Boom(x, y, tc);
+            Boom boom = new Boom(tank.x + Tank.WIDTH / 2, tank.y + Tank.HEIGHT / 2, tc);
             tc.booms.add(boom);
             return true;
         }
@@ -115,5 +123,13 @@ public class Missile {
 
     public boolean isAlive() {
         return alive;
+    }
+
+    public boolean isRobot() {
+        return robot;
+    }
+
+    public boolean hitTanks(List<Tank> tanks) {
+        return tanks.stream().anyMatch(this::hitTank);
     }
 }

@@ -2,6 +2,7 @@ package gui.tankwar;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.util.Random;
 
 /**
  * @author trink
@@ -19,6 +20,10 @@ public class Tank {
     private boolean robot;
 
     private boolean alive = true;
+
+    private static Random random = new Random();
+
+    private int step = random.nextInt(12) + 3;
 
     enum Direction {
         /**
@@ -43,6 +48,11 @@ public class Tank {
     public Tank(int x, int y, boolean robot, TankClient tc) {
         this(x, y, robot);
         this.tc = tc;
+    }
+
+    public Tank(int x, int y, boolean robot, Direction dir, TankClient tc) {
+        this(x, y, robot, tc);
+        this.dir = dir;
     }
 
     public void draw(Graphics g) {
@@ -149,6 +159,19 @@ public class Tank {
         if (this.dir != Direction.STOP) {
             this.shootDir = this.dir;
         }
+
+        if (robot) {
+            Direction[] dirs = Direction.values();
+            if (step == 0) {
+                step = random.nextInt(12) + 3;
+                dir = dirs[random.nextInt(dirs.length)];
+            }
+            step --;
+
+            if (random.nextInt(10) > 8) {
+                tc.missiles.add(fire());
+            }
+        }
     }
 
     public void keyPressed(KeyEvent e) {
@@ -177,7 +200,10 @@ public class Tank {
     }
 
     public Missile fire() {
-        return new Missile(x + WIDTH / 2 - Missile.WIDTH / 2, y + HEIGHT / 2 - Missile.HEIGHT / 2, shootDir, tc);
+        if (!alive) {
+            return null;
+        }
+        return new Missile(x + WIDTH / 2 - Missile.WIDTH / 2, y + HEIGHT / 2 - Missile.HEIGHT / 2, shootDir, robot, tc);
     }
 
     public void keyReleased(KeyEvent e) {
@@ -237,6 +263,10 @@ public class Tank {
 
     public boolean isAlive() {
         return alive;
+    }
+
+    public boolean isRobot() {
+        return robot;
     }
 
     public Tank setAlive(boolean alive) {
