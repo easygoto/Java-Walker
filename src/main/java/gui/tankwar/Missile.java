@@ -132,4 +132,12 @@ public class Missile {
     public boolean hitTanks(List<Tank> tanks) {
         return tanks.stream().anyMatch(this::hitTank);
     }
+
+    public boolean hitWall(Wall wall) {
+        if (this.alive && this.getRect().intersects(wall.getRect())) {
+            this.alive = false;
+            return true;
+        }
+        return false;
+    }
 }

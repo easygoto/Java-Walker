@@ -29,6 +29,9 @@ public class TankClient extends Frame {
 
     Tank myTank = new Tank(GAME_LEFTER + 50, GAME_HEADER + 50, false, Tank.Direction.STOP, this);
 
+    Wall wall1 = new Wall(GAME_LEFTER + 100, GAME_HEADER + 200, 20, 150, this);
+    Wall wall2 = new Wall(GAME_LEFTER + 300, GAME_HEADER + 100, 300, 20, this);
+
     List<Missile> missiles = new ArrayList<>();
     List<Boom>    booms    = new ArrayList<>();
     List<Tank>    tanks    = new ArrayList<>();
@@ -56,8 +59,49 @@ public class TankClient extends Frame {
     @Override
     public void paint(Graphics g) {
         this.paintMainZone(g);
+        this.paintBooms(g);
+        this.paintRobotTanks(g);
+        this.paintMissiles(g);
         myTank.draw(g);
+        myTank.collideWithWall(wall1);
+        myTank.collideWithWall(wall2);
+        myTank.collideWithTanks(tanks);
+        wall1.draw(g);
+        wall2.draw(g);
+    }
 
+    private void paintMissiles(Graphics g) {
+        for (Iterator<Missile> iterator = missiles.iterator(); iterator.hasNext(); ) {
+            Missile missile = iterator.next();
+            if (missile != null && missile.isAlive()) {
+                missile.hitTank(myTank);
+                missile.hitTanks(tanks);
+                missile.hitWall(wall1);
+                missile.hitWall(wall2);
+                missile.draw(g);
+            } else {
+                iterator.remove();
+            }
+        }
+    }
+
+    private void paintRobotTanks(Graphics g) {
+        for (Iterator<Tank> iterator = tanks.iterator(); iterator.hasNext(); ) {
+            Tank tank = iterator.next();
+            if (tank.isAlive()) {
+                tank.draw(g);
+                tank.collideWithWall(wall1);
+                tank.collideWithWall(wall2);
+                tank.collideWithTanks(tanks);
+            } else {
+                if (tank.isRobot()) {
+                    iterator.remove();
+                }
+            }
+        }
+    }
+
+    private void paintBooms(Graphics g) {
         for (Iterator<Boom> iterator = booms.iterator(); iterator.hasNext(); ) {
             Boom boom = iterator.next();
             if (boom.isAlive()) {
@@ -66,31 +110,9 @@ public class TankClient extends Frame {
                 iterator.remove();
             }
         }
-
-        for (Iterator<Tank> iterator = tanks.iterator(); iterator.hasNext(); ) {
-            Tank tank = iterator.next();
-            if (tank.isAlive()) {
-                tank.draw(g);
-            } else {
-                if (tank.isRobot()) {
-                    iterator.remove();
-                }
-            }
-        }
-
-        for (Iterator<Missile> iterator = missiles.iterator(); iterator.hasNext(); ) {
-            Missile missile = iterator.next();
-            if (missile != null && missile.isAlive()) {
-                missile.hitTank(myTank);
-                missile.hitTanks(tanks);
-                missile.draw(g);
-            } else {
-                iterator.remove();
-            }
-        }
     }
 
-    public void paintMainZone(Graphics g) {
+    private void paintMainZone(Graphics g) {
         Color color = g.getColor();
         g.setColor(defaultLineColor);
         g.drawLine(GAME_LEFTER, GAME_HEADER, GAME_LEFTER + MAIN_WIDTH, GAME_HEADER);

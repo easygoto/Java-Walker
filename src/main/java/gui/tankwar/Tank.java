@@ -2,6 +2,7 @@ package gui.tankwar;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -11,7 +12,7 @@ public class Tank {
     public static final int WIDTH  = 50;
     public static final int HEIGHT = 50;
     int xSpeed = 10, ySpeed = 10;
-    int x, y;
+    int x, y, oldX, oldY;
 
     boolean bL = false, bU = false, bR = false, bD = false;
 
@@ -40,8 +41,8 @@ public class Tank {
     Color robotTankColor   = Color.ORANGE;
 
     public Tank(int x, int y, boolean robot) {
-        this.x = x;
-        this.y = y;
+        this.x = oldX = x;
+        this.y = oldY = y;
         this.robot = robot;
     }
 
@@ -109,6 +110,9 @@ public class Tank {
     }
 
     public void move() {
+        oldX = x;
+        oldY = y;
+
         switch (dir) {
             default:
             case STOP:
@@ -166,7 +170,7 @@ public class Tank {
                 step = random.nextInt(12) + 3;
                 dir = dirs[random.nextInt(dirs.length)];
             }
-            step --;
+            step--;
 
             if (random.nextInt(10) > 8) {
                 tc.missiles.add(fire());
@@ -272,5 +276,33 @@ public class Tank {
     public Tank setAlive(boolean alive) {
         this.alive = alive;
         return this;
+    }
+
+    private void stay() {
+        x = oldX;
+        y = oldY;
+    }
+
+    public boolean collideWithWall(Wall wall) {
+        if (alive && this.getRect().intersects(wall.getRect())) {
+            stay();
+            return true;
+        }
+        return false;
+    }
+
+    public boolean collideWithTank(Tank tank) {
+        if (this != tank && alive && tank.isAlive() && this.getRect().intersects(tank.getRect())) {
+            stay();
+            tank.stay();
+            return true;
+        }
+        return false;
+    }
+
+    public void collideWithTanks(List<Tank> tanks) {
+        for (Tank tank : tanks) {
+            collideWithTank(tank);
+        }
     }
 }
