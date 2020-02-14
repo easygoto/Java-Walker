@@ -96,10 +96,14 @@ public class Missile {
      */
     public boolean hitTank(Tank tank) {
         if (alive && tank.isAlive() && this.getRect().intersects(tank.getRect()) && tank.isRobot() != robot) {
+            if (!tank.isRobot() && tank.getLife() > 0) {
+                tank.setLife(tank.getLife() - 20);
+            } else {
+                tank.setAlive(false);
+                Boom boom = new Boom(tank.x + Tank.WIDTH / 2, tank.y + Tank.HEIGHT / 2, tc);
+                tc.booms.add(boom);
+            }
             this.alive = false;
-            tank.setAlive(false);
-            Boom boom = new Boom(tank.x + Tank.WIDTH / 2, tank.y + Tank.HEIGHT / 2, tc);
-            tc.booms.add(boom);
             return true;
         }
         return false;

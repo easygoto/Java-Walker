@@ -115,6 +115,11 @@ public class TankClient extends Frame {
     private void paintMainZone(Graphics g) {
         Color color = g.getColor();
         g.setColor(defaultLineColor);
+        g.drawString("missile count : " + missiles.size(), GAME_LEFTER, GAME_HEADER);
+        g.drawString("boom count : " + booms.size(), GAME_LEFTER + 100, GAME_HEADER);
+        g.drawString("robot count : " + tanks.size(), GAME_LEFTER + 200, GAME_HEADER);
+        g.drawString("myTank life : " + myTank.getLife(), GAME_LEFTER + 300, GAME_HEADER);
+
         g.drawLine(GAME_LEFTER, GAME_HEADER, GAME_LEFTER + MAIN_WIDTH, GAME_HEADER);
         g.drawLine(GAME_LEFTER, GAME_HEADER + MAIN_HEIGHT, GAME_LEFTER + MAIN_WIDTH, GAME_HEADER + MAIN_HEIGHT);
         g.drawLine(GAME_LEFTER, GAME_HEADER, GAME_LEFTER, GAME_HEADER + MAIN_HEIGHT);

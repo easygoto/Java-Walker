@@ -26,6 +26,17 @@ public class Tank {
 
     private int step = random.nextInt(12) + 3;
 
+    private int life = 100;
+
+    public int getLife() {
+        return life;
+    }
+
+    public Tank setLife(int life) {
+        this.life = life;
+        return this;
+    }
+
     enum Direction {
         /**
          * L(左), R(右), U(上), D(下), LU(左上), RU(右上), LD(左下), RD(右下), STOP(停止)
@@ -204,16 +215,31 @@ public class Tank {
     }
 
     public Missile fire() {
+        return fire(shootDir);
+    }
+
+    public Missile fire(Direction shootDir) {
         if (!alive) {
             return null;
         }
         return new Missile(x + WIDTH / 2 - Missile.WIDTH / 2, y + HEIGHT / 2 - Missile.HEIGHT / 2, shootDir, robot, tc);
     }
 
+    public void superFire() {
+        Direction[] dirs = Direction.values();
+        for (int i = 0; i < 8; i++) {
+            tc.missiles.add(fire(dirs[i]));
+        }
+    }
+
     public void keyReleased(KeyEvent e) {
         int keyCode = e.getKeyCode();
         switch (keyCode) {
             default:
+                break;
+            case KeyEvent.VK_Q:
+            case KeyEvent.VK_ENTER:
+                superFire();
                 break;
             case KeyEvent.VK_CONTROL:
             case KeyEvent.VK_SPACE:

@@ -27,6 +27,7 @@ public class Boom {
 
     public void draw(Graphics g) {
         if (!alive || step == diameter.length) {
+            alive = false;
             return;
         }
 
