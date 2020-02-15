@@ -8,7 +8,8 @@ import java.util.List;
  */
 public class Missile {
     public static final int WIDTH  = 10;
-    public static final int HEIGHT = 10;
+    public static final int HEIGHT    = 10;
+    public static final int TANK_HURT = 20;
 
     private boolean robot;
 
@@ -18,22 +19,22 @@ public class Missile {
 
     int xSpeed = 20, ySpeed = 20;
     int x, y;
-    Tank.Direction dir;
+    Direction dir;
 
     Color defaultMissileColor = Color.BLACK;
 
-    public Missile(int x, int y, Tank.Direction dir) {
+    public Missile(int x, int y, Direction dir) {
         this.x = x;
         this.y = y;
         this.dir = dir;
     }
 
-    public Missile(int x, int y, Tank.Direction dir, TankClient tc) {
+    public Missile(int x, int y, Direction dir, TankClient tc) {
         this(x, y, dir);
         this.tc = tc;
     }
 
-    public Missile(int x, int y, Tank.Direction dir, boolean robot, TankClient tc) {
+    public Missile(int x, int y, Direction dir, boolean robot, TankClient tc) {
         this(x, y, dir, tc);
         this.robot = robot;
     }
@@ -96,8 +97,9 @@ public class Missile {
      */
     public boolean hitTank(Tank tank) {
         if (alive && tank.isAlive() && this.getRect().intersects(tank.getRect()) && tank.isRobot() != robot) {
-            if (!tank.isRobot() && tank.getLife() > 0) {
-                tank.setLife(tank.getLife() - 20);
+            int tankLife = tank.getLife() - TANK_HURT;
+            if (!tank.isRobot() && tankLife > 0) {
+                tank.setLife(tankLife);
             } else {
                 tank.setAlive(false);
                 Boom boom = new Boom(tank.x + Tank.WIDTH / 2, tank.y + Tank.HEIGHT / 2, tc);

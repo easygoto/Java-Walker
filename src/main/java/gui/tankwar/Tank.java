@@ -11,6 +11,7 @@ import java.util.Random;
 public class Tank {
     public static final int WIDTH  = 50;
     public static final int HEIGHT = 50;
+    public static final int FULL_BLOOD = 100;
     int xSpeed = 10, ySpeed = 10;
     int x, y, oldX, oldY;
 
@@ -37,12 +38,7 @@ public class Tank {
         return this;
     }
 
-    enum Direction {
-        /**
-         * L(左), R(右), U(上), D(下), LU(左上), RU(右上), LD(左下), RD(右下), STOP(停止)
-         */
-        L, R, U, D, LU, RU, LD, RD, STOP
-    }
+    private BloodBar bloodBar = new BloodBar();
 
     Direction dir = Direction.STOP;
 
@@ -77,6 +73,7 @@ public class Tank {
             g.setColor(robotTankColor);
         } else {
             g.setColor(defaultTankColor);
+            bloodBar.draw(g);
         }
         g.fillOval(x, y, WIDTH, HEIGHT);
         g.setColor(c);
@@ -237,6 +234,10 @@ public class Tank {
         switch (keyCode) {
             default:
                 break;
+            case KeyEvent.VK_F2:
+                this.alive = true;
+                this.life = FULL_BLOOD;
+                break;
             case KeyEvent.VK_Q:
             case KeyEvent.VK_ENTER:
                 superFire();
@@ -329,6 +330,26 @@ public class Tank {
     public void collideWithTanks(List<Tank> tanks) {
         for (Tank tank : tanks) {
             collideWithTank(tank);
+        }
+    }
+
+    public boolean eat(Blood blood) {
+        if (alive && blood.isAlive() && this.getRect().intersects(blood.getRect())) {
+            this.life = FULL_BLOOD;
+            blood.setAlive(false);
+            return true;
+        }
+        return false;
+    }
+
+    private class BloodBar {
+        public void draw(Graphics g) {
+            Color c = g.getColor();
+            g.setColor(Color.RED);
+            g.drawRect(x, y - 5, WIDTH, 3);
+            int lifeW = WIDTH * life / 100;
+            g.fillRect(x, y - 5, lifeW, 3);
+            g.setColor(c);
         }
     }
 }

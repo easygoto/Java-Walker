@@ -27,7 +27,7 @@ public class TankClient extends Frame {
 
     int timeSpace = 100, robotNum = 10;
 
-    Tank myTank = new Tank(GAME_LEFTER + 50, GAME_HEADER + 50, false, Tank.Direction.STOP, this);
+    Tank myTank = new Tank(GAME_LEFTER + 50, GAME_HEADER + 50, false, Direction.STOP, this);
 
     Wall wall1 = new Wall(GAME_LEFTER + 100, GAME_HEADER + 200, 20, 150, this);
     Wall wall2 = new Wall(GAME_LEFTER + 300, GAME_HEADER + 100, 300, 20, this);
@@ -35,6 +35,8 @@ public class TankClient extends Frame {
     List<Missile> missiles = new ArrayList<>();
     List<Boom>    booms    = new ArrayList<>();
     List<Tank>    tanks    = new ArrayList<>();
+
+    Blood blood = new Blood();
 
     Color defaultBgColor   = Color.CYAN;
     Color defaultLineColor = Color.LIGHT_GRAY;
@@ -58,6 +60,13 @@ public class TankClient extends Frame {
 
     @Override
     public void paint(Graphics g) {
+        int minRobotNum = 4;
+        if (tanks.size() <= minRobotNum) {
+            for (int i = 0; i < robotNum - minRobotNum; i++) {
+                tanks.add(new Tank(GAME_LEFTER + 50 + 60 * (i + 1), GAME_HEADER + 50, true, Direction.STOP, this));
+            }
+        }
+
         this.paintMainZone(g);
         this.paintBooms(g);
         this.paintRobotTanks(g);
@@ -66,8 +75,10 @@ public class TankClient extends Frame {
         myTank.collideWithWall(wall1);
         myTank.collideWithWall(wall2);
         myTank.collideWithTanks(tanks);
+        myTank.eat(blood);
         wall1.draw(g);
         wall2.draw(g);
+        blood.draw(g);
     }
 
     private void paintMissiles(Graphics g) {
@@ -129,7 +140,7 @@ public class TankClient extends Frame {
 
     public void launchFrame() {
         for (int i = 0; i < robotNum; i++) {
-            tanks.add(new Tank(GAME_LEFTER + 50 + 60 * (i + 1), GAME_HEADER + 50, true, Tank.Direction.STOP, this));
+            tanks.add(new Tank(GAME_LEFTER + 50 + 60 * (i + 1), GAME_HEADER + 50, true, Direction.STOP, this));
         }
 
         this.setLocation(MAIN_X, MAIN_Y);
