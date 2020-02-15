@@ -25,7 +25,7 @@ public class TankClient extends Frame {
     public static final int GAME_WIDTH   = MAIN_WIDTH + GAME_LEFTER + GAME_RIGHTER;
     public static final int GAME_HEIGHT  = MAIN_HEIGHT + GAME_HEADER + GAME_FOOTER;
 
-    int timeSpace = 100, robotNum = 10;
+    int timeSpace = 25, robotNum = 10;
 
     Tank myTank = new Tank(GAME_LEFTER + 50, GAME_HEADER + 50, false, Direction.STOP, this);
 
@@ -38,7 +38,7 @@ public class TankClient extends Frame {
 
     Blood blood = new Blood();
 
-    Color defaultBgColor   = Color.CYAN;
+    Color defaultBgColor   = Color.BLACK;
     Color defaultLineColor = Color.LIGHT_GRAY;
     Image offScreenImage   = null;
 
@@ -126,10 +126,10 @@ public class TankClient extends Frame {
     private void paintMainZone(Graphics g) {
         Color color = g.getColor();
         g.setColor(defaultLineColor);
-        g.drawString("missile count : " + missiles.size(), GAME_LEFTER, GAME_HEADER);
-        g.drawString("boom count : " + booms.size(), GAME_LEFTER + 100, GAME_HEADER);
-        g.drawString("robot count : " + tanks.size(), GAME_LEFTER + 200, GAME_HEADER);
-        g.drawString("myTank life : " + myTank.getLife(), GAME_LEFTER + 300, GAME_HEADER);
+        g.drawString("missile count : " + missiles.size(), GAME_LEFTER, GAME_HEADER - 5);
+        g.drawString("boom count : " + booms.size(), GAME_LEFTER + 100, GAME_HEADER - 5);
+        g.drawString("robot count : " + tanks.size(), GAME_LEFTER + 200, GAME_HEADER - 5);
+        g.drawString("myTank life : " + myTank.getLife(), GAME_LEFTER + 300, GAME_HEADER - 5);
 
         g.drawLine(GAME_LEFTER, GAME_HEADER, GAME_LEFTER + MAIN_WIDTH, GAME_HEADER);
         g.drawLine(GAME_LEFTER, GAME_HEADER + MAIN_HEIGHT, GAME_LEFTER + MAIN_WIDTH, GAME_HEADER + MAIN_HEIGHT);

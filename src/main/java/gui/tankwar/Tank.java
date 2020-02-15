@@ -9,10 +9,10 @@ import java.util.Random;
  * @author trink
  */
 public class Tank {
-    public static final int WIDTH  = 50;
-    public static final int HEIGHT = 50;
+    public static final int WIDTH      = 50;
+    public static final int HEIGHT     = 50;
     public static final int FULL_BLOOD = 100;
-    int xSpeed = 10, ySpeed = 10;
+    int xSpeed = 4, ySpeed = 4;
     int x, y, oldX, oldY;
 
     boolean bL = false, bU = false, bR = false, bD = false;
@@ -45,7 +45,9 @@ public class Tank {
     Direction shootDir = Direction.U;
 
     Color defaultTankColor = Color.MAGENTA;
-    Color robotTankColor   = Color.ORANGE;
+    Color robotTankColor   = Color.BLUE;
+    Color tankShootColor   = Color.WHITE;
+    Color bloodColor       = Color.RED;
 
     public Tank(int x, int y, boolean robot) {
         this.x = oldX = x;
@@ -84,7 +86,7 @@ public class Tank {
 
     public void drawShoot(Graphics g) {
         Color c = g.getColor();
-        g.setColor(Color.BLACK);
+        g.setColor(tankShootColor);
         switch (shootDir) {
             default:
             case STOP:
@@ -180,7 +182,7 @@ public class Tank {
             }
             step--;
 
-            if (random.nextInt(10) > 8) {
+            if (random.nextInt(100) > 95) {
                 tc.missiles.add(fire());
             }
         }
@@ -345,7 +347,7 @@ public class Tank {
     private class BloodBar {
         public void draw(Graphics g) {
             Color c = g.getColor();
-            g.setColor(Color.RED);
+            g.setColor(bloodColor);
             g.drawRect(x, y - 5, WIDTH, 3);
             int lifeW = WIDTH * life / 100;
             g.fillRect(x, y - 5, lifeW, 3);

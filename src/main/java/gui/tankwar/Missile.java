@@ -7,7 +7,7 @@ import java.util.List;
  * @author trink
  */
 public class Missile {
-    public static final int WIDTH  = 10;
+    public static final int WIDTH     = 10;
     public static final int HEIGHT    = 10;
     public static final int TANK_HURT = 20;
 
@@ -17,11 +17,12 @@ public class Missile {
 
     private TankClient tc;
 
-    int xSpeed = 20, ySpeed = 20;
+    int xSpeed = 8, ySpeed = 8;
     int x, y;
     Direction dir;
 
-    Color defaultMissileColor = Color.BLACK;
+    Color defaultMissileColor = Color.WHITE;
+    Color defaultRobotMissileColor = Color.GREEN;
 
     public Missile(int x, int y, Direction dir) {
         this.x = x;
@@ -44,7 +45,11 @@ public class Missile {
             return;
         }
         Color c = g.getColor();
-        g.setColor(defaultMissileColor);
+        if (robot) {
+            g.setColor(defaultRobotMissileColor);
+        } else {
+            g.setColor(defaultMissileColor);
+        }
         g.fillOval(x, y, WIDTH, HEIGHT);
         g.setColor(c);
 

@@ -6,7 +6,8 @@ import java.awt.*;
  * @author trink
  */
 public class Blood {
-    int x, y, w = 20, h = 20, k = 50;
+    int x, y, w = 20, h = 20, k = 300;
+    Color defaultColor = Color.MAGENTA;
 
     TankClient tc;
 
@@ -34,7 +35,7 @@ public class Blood {
             return;
         }
         Color c = g.getColor();
-        g.setColor(Color.MAGENTA);
+        g.setColor(defaultColor);
         g.fillOval(x, y, w, h);
         g.setColor(c);
 
