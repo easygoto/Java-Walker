@@ -1,7 +1,6 @@
 package gui.tankwar;
 
 import java.awt.*;
-import java.io.File;
 import java.util.Arrays;
 
 /**
@@ -22,17 +21,17 @@ public class Boom {
 
     static {
         images = new Image[]{
-                toolkit.getImage(new File("images/tankWar/boom/0.gif").getAbsolutePath()),
-                toolkit.getImage(new File("images/tankWar/boom/1.gif").getAbsolutePath()),
-                toolkit.getImage(new File("images/tankWar/boom/2.gif").getAbsolutePath()),
-                toolkit.getImage(new File("images/tankWar/boom/3.gif").getAbsolutePath()),
-                toolkit.getImage(new File("images/tankWar/boom/4.gif").getAbsolutePath()),
-                toolkit.getImage(new File("images/tankWar/boom/5.gif").getAbsolutePath()),
-                toolkit.getImage(new File("images/tankWar/boom/6.gif").getAbsolutePath()),
-                toolkit.getImage(new File("images/tankWar/boom/7.gif").getAbsolutePath()),
-                toolkit.getImage(new File("images/tankWar/boom/8.gif").getAbsolutePath()),
-                toolkit.getImage(new File("images/tankWar/boom/9.gif").getAbsolutePath()),
-                toolkit.getImage(new File("images/tankWar/boom/10.gif").getAbsolutePath()),
+                toolkit.getImage("images/tankWar/boom/0.gif"),
+                toolkit.getImage("images/tankWar/boom/1.gif"),
+                toolkit.getImage("images/tankWar/boom/2.gif"),
+                toolkit.getImage("images/tankWar/boom/3.gif"),
+                toolkit.getImage("images/tankWar/boom/4.gif"),
+                toolkit.getImage("images/tankWar/boom/5.gif"),
+                toolkit.getImage("images/tankWar/boom/6.gif"),
+                toolkit.getImage("images/tankWar/boom/7.gif"),
+                toolkit.getImage("images/tankWar/boom/8.gif"),
+                toolkit.getImage("images/tankWar/boom/9.gif"),
+                toolkit.getImage("images/tankWar/boom/10.gif"),
         };
     }
 

@@ -2,7 +2,9 @@ package gui.tankwar;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 /**
@@ -12,9 +14,13 @@ public class Tank {
     public static final int WIDTH      = 50;
     public static final int HEIGHT     = 50;
     public static final int FULL_BLOOD = 100;
+
+    public static Toolkit toolkit = Toolkit.getDefaultToolkit();
+
+    public static Map<String, Image> images = new HashMap<>();
+
     int xSpeed = 4, ySpeed = 4;
     int x, y, oldX, oldY;
-
     boolean bL = false, bU = false, bR = false, bD = false;
 
     private TankClient tc;
@@ -44,10 +50,18 @@ public class Tank {
 
     Direction shootDir = Direction.U;
 
-    Color defaultTankColor = Color.MAGENTA;
-    Color robotTankColor   = Color.BLUE;
-    Color tankShootColor   = Color.WHITE;
-    Color bloodColor       = Color.RED;
+    Color bloodColor = Color.RED;
+
+    static {
+        images.put("L", toolkit.getImage("images/tankWar/tank/L.png"));
+        images.put("R", toolkit.getImage("images/tankWar/tank/R.png"));
+        images.put("U", toolkit.getImage("images/tankWar/tank/U.png"));
+        images.put("D", toolkit.getImage("images/tankWar/tank/D.png"));
+        images.put("LU", toolkit.getImage("images/tankWar/tank/LU.png"));
+        images.put("LD", toolkit.getImage("images/tankWar/tank/LD.png"));
+        images.put("RU", toolkit.getImage("images/tankWar/tank/RU.png"));
+        images.put("RD", toolkit.getImage("images/tankWar/tank/RD.png"));
+    }
 
     public Tank(int x, int y, boolean robot) {
         this.x = oldX = x;
@@ -70,53 +84,30 @@ public class Tank {
             return;
         }
 
-        Color c = g.getColor();
-        if (robot) {
-            g.setColor(robotTankColor);
-        } else {
-            g.setColor(defaultTankColor);
+        if (!robot) {
             bloodBar.draw(g);
         }
-        g.fillOval(x, y, WIDTH, HEIGHT);
-        g.setColor(c);
 
-        drawShoot(g);
-        move();
-    }
-
-    public void drawShoot(Graphics g) {
-        Color c = g.getColor();
-        g.setColor(tankShootColor);
+        Image image = null;
         switch (shootDir) {
             default:
-            case STOP:
                 break;
             case L:
-                g.drawLine(x + WIDTH / 2, y + HEIGHT / 2, x, y + HEIGHT / 2);
-                break;
             case R:
-                g.drawLine(x + WIDTH / 2, y + HEIGHT / 2, x + WIDTH, y + HEIGHT / 2);
-                break;
             case U:
-                g.drawLine(x + WIDTH / 2, y + HEIGHT / 2, x + WIDTH / 2, y);
-                break;
             case D:
-                g.drawLine(x + WIDTH / 2, y + HEIGHT / 2, x + WIDTH / 2, y + HEIGHT);
-                break;
             case LU:
-                g.drawLine(x + WIDTH / 2, y + HEIGHT / 2, x, y);
-                break;
             case LD:
-                g.drawLine(x + WIDTH / 2, y + HEIGHT / 2, x, y + HEIGHT);
-                break;
             case RU:
-                g.drawLine(x + WIDTH / 2, y + HEIGHT / 2, x + WIDTH, y);
-                break;
             case RD:
-                g.drawLine(x + WIDTH / 2, y + HEIGHT / 2, x + WIDTH, y + HEIGHT);
+                image = images.get(shootDir.toString());
                 break;
         }
-        g.setColor(c);
+        if (image != null) {
+            g.drawImage(image, x, y, null);
+        }
+
+        move();
     }
 
     public void move() {
@@ -303,6 +294,7 @@ public class Tank {
     }
 
     public Tank setAlive(boolean alive) {
+        setLife(0);
         this.alive = alive;
         return this;
     }
