@@ -1,7 +1,9 @@
 package gui.tankwar;
 
 import java.awt.*;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author trink
@@ -10,6 +12,10 @@ public class Missile {
     public static final int WIDTH     = 10;
     public static final int HEIGHT    = 10;
     public static final int TANK_HURT = 20;
+
+    private static Toolkit toolkit = Toolkit.getDefaultToolkit();
+
+    private static Map<String, Image> images = new HashMap<>();
 
     private boolean robot;
 
@@ -21,8 +27,18 @@ public class Missile {
     int x, y;
     Direction dir;
 
-    Color defaultMissileColor = Color.WHITE;
     Color defaultRobotMissileColor = Color.GREEN;
+
+    static {
+        images.put("L", toolkit.getImage("images/tankWar/missile/L.gif"));
+        images.put("R", toolkit.getImage("images/tankWar/missile/R.gif"));
+        images.put("U", toolkit.getImage("images/tankWar/missile/U.gif"));
+        images.put("D", toolkit.getImage("images/tankWar/missile/D.gif"));
+        images.put("LU", toolkit.getImage("images/tankWar/missile/LU.gif"));
+        images.put("LD", toolkit.getImage("images/tankWar/missile/LD.gif"));
+        images.put("RU", toolkit.getImage("images/tankWar/missile/RU.gif"));
+        images.put("RD", toolkit.getImage("images/tankWar/missile/RD.gif"));
+    }
 
     public Missile(int x, int y, Direction dir) {
         this.x = x;
@@ -47,12 +63,28 @@ public class Missile {
         Color c = g.getColor();
         if (robot) {
             g.setColor(defaultRobotMissileColor);
+            g.fillOval(x, y, WIDTH, HEIGHT);
         } else {
-            g.setColor(defaultMissileColor);
+            Image image = null;
+            switch (dir) {
+                default:
+                    break;
+                case L:
+                case R:
+                case U:
+                case D:
+                case LU:
+                case LD:
+                case RU:
+                case RD:
+                    image = images.get(dir.toString());
+                    break;
+            }
+            if (image != null) {
+                g.drawImage(image, x, y, null);
+            }
         }
-        g.fillOval(x, y, WIDTH, HEIGHT);
         g.setColor(c);
-
         move();
     }
 
