@@ -1,4 +1,4 @@
-package generics.demo;
+package baseapi.generics;
 
 public class Computer {
 

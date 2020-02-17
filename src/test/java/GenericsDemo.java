@@ -1,6 +1,6 @@
-import generics.demo.Computer;
-import generics.demo.InterImpl;
-import generics.demo.Tool;
+import baseapi.generics.Computer;
+import baseapi.generics.InterImpl;
+import baseapi.generics.Tool;
 import org.junit.Test;
 
 public class GenericsDemo {
