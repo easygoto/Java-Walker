@@ -5,9 +5,13 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Properties;
 
 /**
  * @author trink
@@ -25,7 +29,8 @@ public class TankClient extends Frame {
     public static final int GAME_WIDTH   = MAIN_WIDTH + GAME_LEFTER + GAME_RIGHTER;
     public static final int GAME_HEIGHT  = MAIN_HEIGHT + GAME_HEADER + GAME_FOOTER;
 
-    int timeSpace = 25, robotNum = 10;
+    int timeSpace = Integer.parseInt(Settings.get("flushSpaceTime"));
+    int robotNum  = Integer.parseInt(Settings.get("initRobotTankCount"));
 
     Tank myTank = new Tank(GAME_LEFTER + 50, GAME_HEADER + 50, false, Direction.STOP, this);
 
@@ -60,7 +65,7 @@ public class TankClient extends Frame {
 
     @Override
     public void paint(Graphics g) {
-        int minRobotNum = 4;
+        int minRobotNum = Integer.parseInt(Settings.get("minRobotNum"));
         if (tanks.size() <= minRobotNum) {
             for (int i = 0; i < robotNum - minRobotNum; i++) {
                 tanks.add(new Tank(GAME_LEFTER + 50 + 60 * (i + 1), GAME_HEADER + 50, true, Direction.STOP, this));
@@ -160,7 +165,7 @@ public class TankClient extends Frame {
         new Thread(new PaintThread()).start();
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         TankClient tankClient = new TankClient();
         tankClient.launchFrame();
     }
