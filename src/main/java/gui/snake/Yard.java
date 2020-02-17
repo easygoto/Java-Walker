@@ -5,8 +5,24 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.stream.IntStream;
 
+/**
+ * @author trink
+ */
 public class Yard extends Frame {
+
+    public static final int ROWS         = 30;
+    public static final int COLS         = 40;
+    public static final int BLOCK_SIZE   = 10;
+    public static final int GAME_HEADER  = 100;
+    public static final int GAME_FOOTER  = 30;
+    public static final int GAME_LEFTER  = 30;
+    public static final int GAME_RIGHTER = 30;
+    public static final int MAIN_WIDTH   = COLS * BLOCK_SIZE;
+    public static final int MAIN_HEIGHT  = ROWS * BLOCK_SIZE;
+    public static final int GAME_WIDTH   = GAME_LEFTER + MAIN_WIDTH + GAME_RIGHTER;
+    public static final int GAME_HEIGHT  = GAME_HEADER + MAIN_HEIGHT + GAME_FOOTER;
 
     Egg egg = new Egg();
 
@@ -19,21 +35,12 @@ public class Yard extends Frame {
     private int     score    = 0;
     private boolean gameOver = false;
 
-    public static final int ROWS       = 40;
-    public static final int COLS       = 60;
-    public static final int BLOCK_SIZE = 10;
-
-    /**
-     * 因为 windows 下对话框头部会占大约 30 的距离
-     */
-    public static final int UNNECESSARY = (int) Math.ceil(((double) 30 / BLOCK_SIZE));
-
     /**
      * 游戏的主界面
      */
     public void launch() {
         this.setLocation(100, 100);
-        this.setSize(COLS * BLOCK_SIZE, ROWS * BLOCK_SIZE);
+        this.setSize(GAME_WIDTH, GAME_HEIGHT);
         this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
@@ -47,6 +54,8 @@ public class Yard extends Frame {
             }
         });
         this.setVisible(true);
+        this.setTitle("贪吃蛇");
+        this.setResizable(false);
         new Thread(paintThread).start();
     }
 
@@ -67,21 +76,18 @@ public class Yard extends Frame {
 
         // 绘图主界面
         g.setColor(Color.GRAY);
-        g.fillRect(0, 0, COLS * BLOCK_SIZE, ROWS * BLOCK_SIZE);
+        g.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
         g.setColor(Color.DARK_GRAY);
-        for (int i = 1; i < ROWS; i++) {
-            g.drawLine(0, BLOCK_SIZE * i, BLOCK_SIZE * COLS, BLOCK_SIZE * i);
-        }
-        for (int i = 1; i < COLS; i++) {
-            g.drawLine(BLOCK_SIZE * i, 0, BLOCK_SIZE * i, BLOCK_SIZE * COLS);
-        }
+        IntStream.rangeClosed(0, ROWS).forEach(i -> g.drawLine(GAME_LEFTER, GAME_HEADER + BLOCK_SIZE * i, GAME_LEFTER + MAIN_WIDTH, GAME_HEADER + BLOCK_SIZE * i));
+        IntStream.rangeClosed(0, COLS).forEach(i -> g.drawLine(GAME_LEFTER + BLOCK_SIZE * i, GAME_HEADER, GAME_LEFTER + BLOCK_SIZE * i, GAME_HEADER + MAIN_HEIGHT));
+
         g.setColor(Color.YELLOW);
-        g.drawString("score: " + score, 10, 60);
+        g.drawString("score: " + score, GAME_LEFTER, GAME_HEADER - 5);
 
         // 游戏结束
         if (gameOver) {
             g.setFont(new Font("宋体", Font.BOLD, 64));
-            g.drawString("游戏结束", 10, 80);
+            g.drawString("游戏结束", 100, 80);
             paintThread.gameOver();
         }
         g.setColor(c);
@@ -94,7 +100,7 @@ public class Yard extends Frame {
     @Override
     public void update(Graphics g) {
         if (offScreenImage == null) {
-            offScreenImage = this.createImage(COLS * BLOCK_SIZE, ROWS * BLOCK_SIZE);
+            offScreenImage = this.createImage(GAME_WIDTH, GAME_HEIGHT);
         }
         Graphics gOff = offScreenImage.getGraphics();
         paint(gOff);

@@ -3,13 +3,17 @@ package gui.snake;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 
-import static gui.snake.Yard.UNNECESSARY;
-
+/**
+ * @author trink
+ */
 public class Snake {
     private Node head;
     private Node tail;
-    private int  size;
     private Yard yard;
+
+    private int size;
+
+    private boolean alive = true;
 
     public Snake(Yard yard) {
         Node n = new Node(30, 20, Dir.R);
@@ -76,13 +80,17 @@ public class Snake {
     }
 
     public void move() {
+        if (!alive) {
+            return;
+        }
         addToHead();
         deleteFromTail();
         checkDead();
     }
 
     public void checkDead() {
-        if (head.row < UNNECESSARY || head.col < 0 || head.row > Yard.ROWS || head.col > Yard.COLS) {
+        if (head.row < 0 || head.col < 0 || head.row >= Yard.ROWS || head.col >= Yard.COLS) {
+            alive = false;
             yard.stop();
         }
         for (Node n = head.next; size > 1 && n != null; n = n.next) {
@@ -157,7 +165,7 @@ public class Snake {
         void draw(Graphics g) {
             Color c = g.getColor();
             g.setColor(Color.BLACK);
-            g.fillRect(Yard.BLOCK_SIZE * col, Yard.BLOCK_SIZE * row, w, h);
+            g.fillRect(Yard.GAME_LEFTER + Yard.BLOCK_SIZE * col, Yard.GAME_HEADER + Yard.BLOCK_SIZE * row, w, h);
             g.setColor(c);
         }
     }

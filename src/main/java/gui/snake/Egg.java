@@ -3,8 +3,9 @@ package gui.snake;
 import java.awt.*;
 import java.util.Random;
 
-import static gui.snake.Yard.UNNECESSARY;
-
+/**
+ * @author trink
+ */
 public class Egg {
     private int row, col;
     private int w = Yard.BLOCK_SIZE;
@@ -18,7 +19,7 @@ public class Egg {
     }
 
     public Egg() {
-        this(r.nextInt(Yard.ROWS - UNNECESSARY) + UNNECESSARY, r.nextInt(Yard.COLS));
+        this(r.nextInt(Yard.ROWS), r.nextInt(Yard.COLS));
     }
 
     public Rectangle getRect() {
@@ -28,7 +29,7 @@ public class Egg {
     public void draw(Graphics g) {
         Color c = g.getColor();
         g.setColor(Color.GREEN);
-        g.fillOval(Yard.BLOCK_SIZE * col, Yard.BLOCK_SIZE * row, w, h);
+        g.fillOval(Yard.GAME_LEFTER + Yard.BLOCK_SIZE * col, Yard.GAME_HEADER + Yard.BLOCK_SIZE * row, w, h);
         g.setColor(c);
     }
 
@@ -49,7 +50,7 @@ public class Egg {
     }
 
     public void reAppear() {
-        this.row = r.nextInt(Yard.ROWS - UNNECESSARY) + UNNECESSARY;
+        this.row = r.nextInt(Yard.ROWS);
         this.col = r.nextInt(Yard.ROWS);
     }
 }
