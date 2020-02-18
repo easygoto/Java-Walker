@@ -1,17 +1,14 @@
 package gui.chat;
 
-import java.io.DataInputStream;
-import java.io.EOFException;
-import java.io.IOException;
-import java.net.ServerSocket;
-import java.net.Socket;
+import java.io.*;
+import java.net.*;
+
+import static gui.chat.Constant.*;
 
 /**
  * @author trink
  */
 public class ChatServer {
-
-    public static final String CLIENT_EXIT_MSG = "CLIENT_EXIT";
 
     public static void main(String[] args) {
         new ChatServer().start();
@@ -20,7 +17,7 @@ public class ChatServer {
     public void start() {
         ServerSocket serverSocket = null;
         try {
-            serverSocket = new ServerSocket(8888);
+            serverSocket = new ServerSocket(PORT);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -76,14 +73,15 @@ public class ChatServer {
                 }
             } catch (IOException e) {
                 e.printStackTrace();
-            }
-            try {
-                if (socket != null) {
-                    System.out.printf("%s: closed ...\n", socket.getInetAddress().getHostAddress());
-                    socket.close();
+            } finally {
+                try {
+                    if (socket != null) {
+                        System.out.printf("%s: closed ...\n", socket.getInetAddress().getHostAddress());
+                        socket.close();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
             }
         }
     }
