@@ -17,6 +17,10 @@ public class ChatClient extends Frame {
 
     Socket socket = null;
 
+    Thread thread = null;
+
+    DataInputStream dis = null;
+
     DataOutputStream dos = null;
 
     public void launch() {
@@ -46,6 +50,11 @@ public class ChatClient extends Frame {
                 dos.writeUTF(CLIENT_EXIT_MSG);
                 dos.flush();
                 dos.close();
+                dos = null;
+            }
+            if (dis != null) {
+                dis.close();
+                dis = null;
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -53,6 +62,7 @@ public class ChatClient extends Frame {
             try {
                 if (socket != null) {
                     socket.close();
+                    socket = null;
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -63,9 +73,14 @@ public class ChatClient extends Frame {
     public void connect() {
         try {
             socket = new Socket(IP_ADDRESS, PORT);
+            dis = new DataInputStream(socket.getInputStream());
             dos = new DataOutputStream(socket.getOutputStream());
-        } catch (IOException e) {
-            e.printStackTrace();
+
+            Server server = new Server();
+            thread = new Thread(server);
+            thread.join();
+            thread.start();
+        } catch (Exception ignored) {
         }
     }
 
@@ -73,11 +88,27 @@ public class ChatClient extends Frame {
         new ChatClient().launch();
     }
 
+    private class Server implements Runnable {
+
+        @Override
+        public void run() {
+            try {
+                while (dis != null) {
+                    String msg = dis.readUTF();
+                    msgArea.setText(msgArea.getText() + msg + LINE_SEPARATOR);
+                }
+            } catch (SocketException e) {
+                thread.interrupt();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     private class SendMsgListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             String msg = sendMsg.getText().trim();
-            msgArea.setText(msgArea.getText() + msg + LINE_SEPARATOR);
             sendMsg.setText(BLANK_MSG);
 
             try {

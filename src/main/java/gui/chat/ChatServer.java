@@ -2,6 +2,7 @@ package gui.chat;
 
 import java.io.*;
 import java.net.*;
+import java.util.*;
 
 import static gui.chat.Constant.*;
 
@@ -9,6 +10,8 @@ import static gui.chat.Constant.*;
  * @author trink
  */
 public class ChatServer {
+
+    List<Client> clientList = new ArrayList<>();
 
     public static void main(String[] args) {
         new ChatServer().start();
@@ -29,22 +32,33 @@ public class ChatServer {
             while (true) {
                 Socket socket = serverSocket.accept();
                 Client client = new Client(socket);
-                new Thread(client).start();
+                clientList.add(client);
+
+                Thread thread = new Thread(client);
+                thread.join();
+                thread.start();
             }
         } catch (Exception ignored) {
         }
     }
 
-    private static class Client implements Runnable {
+    private class Client implements Runnable {
+
+        private String ipAddress = "";
 
         private Socket socket;
 
         private DataInputStream dis;
 
+        private DataOutputStream dos;
+
         public Client(Socket socket) {
             this.socket = socket;
             try {
                 this.dis = new DataInputStream(socket.getInputStream());
+                this.dos = new DataOutputStream(socket.getOutputStream());
+                this.ipAddress = socket.getInetAddress().getHostAddress();
+                System.out.println(this.ipAddress + ": connected ...");
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -59,14 +73,26 @@ public class ChatServer {
                         close();
                         break;
                     }
-                    System.out.printf("%s: %s\n", socket.getInetAddress().getHostAddress(), msg);
+                    String serverMsg = this.ipAddress + ": " + msg;
+                    clientList.forEach((Client c) -> c.send(serverMsg));
+                    System.out.println(serverMsg);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
         }
 
+        public void send(String msg) {
+            try {
+                dos.writeUTF(msg);
+                dos.flush();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
         public void close() {
+            clientList.remove(this);
             try {
                 if (dis != null) {
                     dis.close();
@@ -76,7 +102,7 @@ public class ChatServer {
             } finally {
                 try {
                     if (socket != null) {
-                        System.out.printf("%s: closed ...\n", socket.getInetAddress().getHostAddress());
+                        System.out.println(this.ipAddress + ": closed ...");
                         socket.close();
                     }
                 } catch (IOException e) {
