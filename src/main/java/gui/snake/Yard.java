@@ -12,8 +12,8 @@ import java.util.stream.IntStream;
  */
 public class Yard extends Frame {
 
-    public static final int ROWS         = 30;
-    public static final int COLS         = 40;
+    public static final int ROWS         = 60;
+    public static final int COLS         = 80;
     public static final int BLOCK_SIZE   = 10;
     public static final int GAME_HEADER  = 100;
     public static final int GAME_FOOTER  = 30;
@@ -87,7 +87,7 @@ public class Yard extends Frame {
         // 游戏结束
         if (gameOver) {
             g.setFont(new Font("宋体", Font.BOLD, 64));
-            g.drawString("游戏结束", 100, 80);
+            g.drawString("游戏结束", 300, 80);
             paintThread.gameOver();
         }
         g.setColor(c);
