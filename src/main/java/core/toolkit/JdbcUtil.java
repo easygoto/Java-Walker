@@ -14,10 +14,7 @@ public class JdbcUtil {
 
     static {
         try {
-            // 注册驱动的三种方式
-            Class.forName("com.mysql.cj.jdbc.Driver"); // 推荐
-//            DriverManager.registerDriver(new com.mysql.cj.jdbc.Driver());
-//            System.setProperty("jdbc.drivers", "com.mysql.cj.jdbc.Driver:com.mysql.jdbc.Driver");
+            Class.forName("com.mysql.cj.jdbc.Driver");
         } catch (ClassNotFoundException e) {
             throw new ExceptionInInitializerError(e);
         }
