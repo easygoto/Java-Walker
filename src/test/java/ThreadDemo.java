@@ -1,11 +1,11 @@
 import org.junit.Test;
-import thread.DeadLock;
-import thread.many2Many.Base;
-import thread.many2Many.In;
-import thread.many2Many.Out;
-import thread.simple.Input;
-import thread.simple.Output;
-import thread.simple.Resource;
+import baseapi.thread.DeadLock;
+import baseapi.thread.many2Many.Base;
+import baseapi.thread.many2Many.In;
+import baseapi.thread.many2Many.Out;
+import baseapi.thread.simple.Input;
+import baseapi.thread.simple.Output;
+import baseapi.thread.simple.Resource;
 
 public class ThreadDemo {
 

@@ -2,8 +2,6 @@ import org.junit.Test;
 import baseapi.reflection.pci.MainBoard;
 import baseapi.reflection.pci.PCI;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileReader;
 import java.util.Properties;
 

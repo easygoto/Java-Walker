@@ -21,6 +21,8 @@
 
 ### 贪吃蛇(snake)
 
+> [查看源码](src/main/java/gui/snake/Yard.java)
+
 - [x] 游戏的参数提取到成员变量/类常量
 - [x] 游戏界面加一定距离的边框
 - [ ] 快速切换相反的方向会结束游戏
@@ -31,6 +33,8 @@
 - [ ] 吃果实的时候不是很顺畅
 
 ### 坦克大战(tankWar)
+
+> [查看源码](src/main/java/gui/tankwar/TankClient.java)
 
 - [x] 坦克死亡爆炸效果,优化爆炸的位置
 - [x] 加入敌方坦克,并且坦克可以移动,可以发射炮弹
@@ -44,6 +48,10 @@
 - [ ] 网络版
 
 ### 聊天(chat)
+
+> [服务端源码](src/main/java/gui/chat/ChatServer.java)
+>
+> [客户端源码](src/main/java/gui/chat/ChatClient.java)
 
 - [x] 多线程支持
 - [x] 常量提取
