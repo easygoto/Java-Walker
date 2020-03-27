@@ -1,7 +1,8 @@
-package example.rabbit;
+package example.rabbit.quickstart;
 
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.DeliverCallback;
+import example.rabbit.RabbitUtil;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -11,9 +12,7 @@ import java.nio.charset.StandardCharsets;
  */
 public class Consumer {
 
-    private static final String QUEUE_NAME = "test";
-
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 
         RabbitUtil rabbitUtil = new RabbitUtil();
         Channel channel = rabbitUtil.getChannel();
@@ -23,10 +22,7 @@ public class Consumer {
             System.out.println(" [x] Received '" + message + "'");
         };
 
-        try {
-            channel.basicConsume(QUEUE_NAME, true, deliverCallback, consumerTag -> { });
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        String queueName = "test00";
+        channel.basicConsume(queueName, true, deliverCallback, consumerTag -> { });
     }
 }
