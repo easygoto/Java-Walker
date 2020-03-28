@@ -104,6 +104,7 @@ public class IODemo {
         fis.close();
     }
 
+    @Test
     public void mergeFiles() throws IOException {
         String filename = "C:\\money.rmvb";
         File file = new File(filename);

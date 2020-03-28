@@ -2,15 +2,14 @@ package core.toolkit;
 
 public class CaseUtil {
 
-    /***
+    /**
      * 下划线命名转为驼峰命名
      *
-     * @param para
-     *        下划线命名的字符串
+     * @param para 下划线命名的字符串
      */
     public static String underlineToHump(String para) {
         StringBuilder result = new StringBuilder();
-        String a[] = para.split("_");
+        String[] a = para.split("_");
         for (String s : a) {
             if (!para.contains("_")) {
                 result.append(s);
@@ -27,11 +26,10 @@ public class CaseUtil {
     }
 
 
-    /***
+    /**
      * 驼峰命名转为下划线命名
      *
-     * @param para
-     *        驼峰命名的字符串
+     * @param para 驼峰命名的字符串
      */
 
     public static String humpToUnderline(String para) {

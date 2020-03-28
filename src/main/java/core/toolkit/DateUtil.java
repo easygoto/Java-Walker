@@ -5,6 +5,9 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+/**
+ * @author trink
+ */
 public class DateUtil {
 
     private static SimpleDateFormat dateFormat   = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -22,15 +25,15 @@ public class DateUtil {
         return Timestamp.valueOf(date);
     }
 
-    public static String getDateSn() {
+    public static synchronized String getDateSn() {
         return uniqueFormat.format(Calendar.getInstance().getTime()) + System.nanoTime();
     }
 
-    public static String getDateString() {
+    public static synchronized String getDateString() {
         return dateFormat.format(getDate());
     }
 
-    public static String getDateString(Date date) {
+    public static synchronized String getDateString(Date date) {
         return dateFormat.format(date);
     }
 }

@@ -18,6 +18,7 @@ public class Consumer {
         Channel channel = rabbitUtil.getChannel();
 
         DeliverCallback deliverCallback = (consumerTag, delivery) -> {
+            // 属性可以使用 delivery.getProperties() 获取
             String message = new String(delivery.getBody(), StandardCharsets.UTF_8);
             System.out.println(" [x] Received '" + message + "'");
         };
