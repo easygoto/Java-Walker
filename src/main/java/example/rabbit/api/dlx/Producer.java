@@ -1,20 +1,16 @@
 package example.rabbit.api.dlx;
 
 import com.rabbitmq.client.AMQP;
-import com.rabbitmq.client.Channel;
-import example.rabbit.RabbitUtil;
 import org.apache.commons.lang.RandomStringUtils;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @author trink
  */
 public class Producer {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
 
         int total = 5;
         for (int i = total; i > 0; i--) {

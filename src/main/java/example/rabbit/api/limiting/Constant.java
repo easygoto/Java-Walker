@@ -23,7 +23,7 @@ public class Constant {
     static {
 
         RabbitUtil rabbitUtil = new RabbitUtil();
-        channel = rabbitUtil.getChannel();
+        channel = rabbitUtil.newChannel();
 
         try {
             channel.exchangeDeclare(exchangeName, exchangeType, true, false, null);

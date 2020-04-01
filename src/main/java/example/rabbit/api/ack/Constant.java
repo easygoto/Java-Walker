@@ -23,7 +23,7 @@ public class Constant {
     static {
 
         RabbitUtil rabbitUtil = new RabbitUtil();
-        channel = rabbitUtil.getChannel();
+        channel = rabbitUtil.newChannel();
 
         // 设置应答
         try {

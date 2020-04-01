@@ -15,7 +15,6 @@ import java.util.concurrent.TimeoutException;
 public class RabbitUtil {
 
     Connection connection = null;
-    Channel    channel    = null;
 
     public RabbitUtil() {
 
@@ -28,11 +27,19 @@ public class RabbitUtil {
 
         try {
             connection = connectionFactory.newConnection();
-            channel = connection.createChannel();
         } catch (IOException | TimeoutException e) {
-            close();
             e.printStackTrace();
         }
+    }
+
+    public Channel newChannel() {
+        Channel channel = null;
+        try {
+            channel = connection.createChannel();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return channel;
     }
 
     public static DeliverCallback deliverCallback = (consumerTag, delivery) -> {
@@ -40,37 +47,4 @@ public class RabbitUtil {
         String message = new String(delivery.getBody(), StandardCharsets.UTF_8);
         System.out.println("[x] Received: " + message);
     };
-
-    public void close() {
-        if (channel != null) {
-            try {
-                channel.close();
-            } catch (IOException | TimeoutException e) {
-                e.printStackTrace();
-            }
-        }
-        if (connection != null) {
-            try {
-                connection.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    public Connection getConnection() {
-        return connection;
-    }
-
-    public void setConnection(Connection connection) {
-        this.connection = connection;
-    }
-
-    public Channel getChannel() {
-        return channel;
-    }
-
-    public void setChannel(Channel channel) {
-        this.channel = channel;
-    }
 }

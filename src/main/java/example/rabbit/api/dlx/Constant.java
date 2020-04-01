@@ -31,7 +31,7 @@ public class Constant {
     static {
 
         RabbitUtil rabbitUtil = new RabbitUtil();
-        channel = rabbitUtil.getChannel();
+        channel = rabbitUtil.newChannel();
 
         try {
             Map<String, Object> arguments = new HashMap<>(1);
