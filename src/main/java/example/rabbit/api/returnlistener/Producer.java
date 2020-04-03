@@ -20,16 +20,20 @@ public class Producer {
     private static void addMessage() {
 
         int strLen = 150;
-        String message = RandomStringUtils.randomAlphabetic(strLen);
+        String message;
         // 第三个参数表示是否返回在生产端
         try {
+            message = RandomStringUtils.randomAlphabetic(strLen);
             Constant.channel.basicPublish(Constant.exchangeName, Constant.routingKey, true, null,
                     message.getBytes());
+            System.out.println("[x] Sent: " + message);
+
+            message = RandomStringUtils.randomAlphabetic(strLen);
             Constant.channel.basicPublish(Constant.exchangeName, Constant.routingKeyError, true, null,
                     message.getBytes());
+            System.out.println("[x] Sent: " + message + " ---- Error");
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println("[x] Sent: " + message);
     }
 }

@@ -1,15 +1,17 @@
 package example.rabbit.spring;
 
-import org.springframework.amqp.core.Binding;
-import org.springframework.amqp.core.BindingBuilder;
-import org.springframework.amqp.core.Queue;
-import org.springframework.amqp.core.TopicExchange;
+import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitAdmin;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
+import org.springframework.amqp.rabbit.listener.api.ChannelAwareMessageListener;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+
+import java.util.UUID;
 
 /**
  * @author trink
@@ -30,6 +32,7 @@ public class RabbitMqConfig {
 
     @Bean
     public RabbitAdmin rabbitAdmin(ConnectionFactory connectionFactory) {
+        // 该类封装了对 RabbitMQ 的管理操作
         RabbitAdmin rabbitAdmin = new RabbitAdmin(connectionFactory);
         rabbitAdmin.setAutoStartup(true);
         return rabbitAdmin;
@@ -83,5 +86,33 @@ public class RabbitMqConfig {
     @Bean
     public Queue queuePdf() {
         return new Queue("test.spring.pdf.queue", true);
+    }
+
+    @Bean
+    public RabbitTemplate rabbitTemplate(ConnectionFactory connectionFactory) {
+        // 简化版 RabbitMQ 发送和接收消息操作
+        return new RabbitTemplate(connectionFactory);
+    }
+
+    @Bean
+    public SimpleMessageListenerContainer messageContainer(ConnectionFactory connectionFactory) {
+        SimpleMessageListenerContainer container = new SimpleMessageListenerContainer(connectionFactory);
+        container.setQueues(queue001(), queue002(), queue003(), queueImage(), queuePdf());
+        // 当前消费者数量
+        container.setConcurrentConsumers(1);
+        // 最大消费者数量
+        container.setMaxConcurrentConsumers(5);
+        // 是否重回队列
+        container.setDefaultRequeueRejected(false);
+        // 自动签收
+        container.setAcknowledgeMode(AcknowledgeMode.AUTO);
+        // 消费者标签生成策略
+        container.setConsumerTagStrategy(queue -> queue + ": " + UUID.randomUUID().toString());
+
+        container.setMessageListener((ChannelAwareMessageListener) (message, channel) -> {
+            String msg = new String(message.getBody());
+            System.out.println("---------------- 消费者: " + msg);
+        });
+        return container;
     }
 }
